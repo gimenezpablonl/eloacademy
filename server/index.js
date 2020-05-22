@@ -37,7 +37,7 @@ async function start() {
   app.use(passport.session())
   // MONGODB
   mongoose
-    .connect('mongodb://localhost/eloacademy', {
+    .connect(process.env.MONGODB_URI || 'mongodb://localhost/eloacademy', {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
