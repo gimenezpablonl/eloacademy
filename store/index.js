@@ -33,7 +33,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       commit('auth_request')
       axios
-        .post('/auth/signin', user)
+        .post('/api/auth/signin', user)
         .then((resp) => {
           const token = resp.data.token
           const user = resp.data.userToken
