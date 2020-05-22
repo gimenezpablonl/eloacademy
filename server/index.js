@@ -52,7 +52,7 @@ async function start() {
   // Listen the server
   console.log(port, host)
   console.log(process.env.PORT)
-  app.listen(port, host)
+  app.listen(process.env.PORT, host)
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true,
