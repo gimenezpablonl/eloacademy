@@ -12,12 +12,12 @@
     max-height="auto"
     autocomplete
     return-object
+    solo
     @change="onChange($event)"
   >
     <template v-slot:selection="data">
       <v-avatar>
         <v-img
-          max-height="40"
           max-width="40"
           :src="require(`@/assets/servers/${data.item.avatar}`)"
         />

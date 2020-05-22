@@ -5,7 +5,10 @@
       <v-col class="d-flex" cols="auto" md="5" sm="10">
         <v-text-field
           v-model="player.desiredLp"
-          :rules="[(v) => !!v || 'Necesario']"
+          :rules="[
+            (v) => !!v || 'Necesario',
+            (v) => v <= 100 || 'No puedes tener más de 100PDL.',
+          ]"
           required
           value="0"
           type="number"
@@ -35,7 +38,7 @@ export default {
   data: () => ({
     valid: true,
     lpGains: ['1-10', '10-14', '15-17', '18-24+'],
-    player: { desiredLeague: '', desiredDivision: 'I' },
+    player: { desiredLeague: '', desiredDivision: '' },
   }),
   methods: {
     pickLeague(league) {
@@ -46,9 +49,9 @@ export default {
     },
     passForm() {
       this.$refs.form.validate()
-      //      if(this.valid){
-      this.$emit('clicked', this.player)
-      //      }
+      if (this.valid) {
+        this.$emit('clicked', this.player)
+      }
     },
   },
 }

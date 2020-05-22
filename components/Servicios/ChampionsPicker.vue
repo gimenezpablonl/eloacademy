@@ -1,22 +1,21 @@
 <template>
   <v-row align="center" no-gutters>
-    <v-col class="d-flex" cols="auto" md="5" sm="10">
+    <v-col class="d-flex" cols="auto">
       <v-autocomplete
         v-model="e11"
         color="accent3"
         item-color="opposite"
         :items="champions"
-        :rules="[(v) => !!v || 'Necesario']"
-        required
+        :rules="rules"
         clearable
         multiple
-        counter="3"
+        counter="8"
         label="Campeones"
         item-text="name"
         item-value="name"
-        max-height="auto"
         autocomplete
         return-object
+        solo
         @change="onChange($event)"
       >
         <template v-slot:selection="data">
@@ -49,6 +48,14 @@
 <script>
 import champions from '@/utils/champions'
 export default {
+  props: {
+    rules: {
+      type: Array,
+      default() {
+        return []
+      },
+    },
+  },
   data() {
     return {
       e11: '',

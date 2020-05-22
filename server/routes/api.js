@@ -5,11 +5,12 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const User = require('../models/UserSchema')
 const Account = require('../models/AccountSchema')
+const Eloboost = require('../models/PlayerSchema')
 const router = express.Router()
 
 // AUTH
 
-router.get('/auth/users', async (req, res) => {
+router.get('/users', async (req, res) => {
   const users = await User.find()
   res.json(users)
 })
@@ -20,17 +21,15 @@ router.delete('/users/:id', async (req, res) => {
 })
 
 router.post('/auth/signup', async (req, res) => {
-  const { username, password } = req.body
-  const user = new User({ username, password })
+  const { username, password, admin } = req.body
+  const user = new User({ username, password, admin })
   user.password = await user.encryptPassword(password)
   await user.save()
-  console.log('REGISTRADO', user)
   res.redirect('/')
 })
 
 router.post('/auth/signin', function (req, res, next) {
   passport.authenticate('local', { session: false }, (err, user, info) => {
-    console.log(err)
     if (err || !user) {
       return res.status(400).json({
         message: info ? info.message : 'Login failed',
@@ -51,14 +50,13 @@ router.post('/auth/signin', function (req, res, next) {
 
 router.get('/auth/logout', (req, res) => {
   req.logout()
-  console.log('DESLOGEADO')
   res.redirect('/')
 })
 
 // ACCOUNTS
 
 router.get('/accounts', async (req, res) => {
-  const accounts = await Account.find().populate('owner')
+  const accounts = await Account.find()
   res.send(accounts)
 })
 
@@ -77,12 +75,11 @@ router.post('/accounts', async (req, res) => {
     champions,
     skins,
     icons,
-    previous_rank_league,
-    previous_rank_division,
-    solo_rank_league,
-    solo_rank_division,
-    flex_rank_league,
-    flex_rank_division,
+    previous_rank,
+    solo_rank,
+    flex_rank,
+    tft_rank,
+    price,
   } = req.body
   const account = new Account({
     owner,
@@ -98,12 +95,11 @@ router.post('/accounts', async (req, res) => {
     champions,
     skins,
     icons,
-    previous_rank_league,
-    previous_rank_division,
-    solo_rank_league,
-    solo_rank_division,
-    flex_rank_league,
-    flex_rank_division,
+    previous_rank,
+    solo_rank,
+    flex_rank,
+    tft_rank,
+    price,
   })
   await account.save()
   res.json({
@@ -114,6 +110,63 @@ router.post('/accounts', async (req, res) => {
 router.delete('/accounts/:id', async (req, res) => {
   await Account.findByIdAndRemove(req.params.id)
   res.json('borrado')
+})
+
+router.get('/accounts/:id', async (req, res) => {
+  const id = req.params.id
+  await Account.findOne({ _id: id }, function (err, account) {
+    if (err) {
+    }
+    res.json({
+      account,
+    })
+  })
+})
+
+// ELOBOOSTS
+
+router.get('/eloboosts', async (req, res) => {
+  const eloboosts = await Eloboost.find()
+  res.send(eloboosts)
+})
+
+router.post('/eloboosts', async (req, res) => {
+  const {
+    username,
+    password,
+    email,
+    phone,
+    rank,
+    server,
+    queue,
+    service,
+    boost,
+    lpGains,
+    desiredLeague,
+    desiredDivision,
+    wins,
+    options,
+  } = req.body
+  const eloboost = new Eloboost({
+    username,
+    password,
+    email,
+    phone,
+    rank,
+    server,
+    queue,
+    service,
+    boost,
+    lpGains,
+    desiredLeague,
+    desiredDivision,
+    wins,
+    options,
+  })
+  await eloboost.save()
+  res.json({
+    eloboost,
+  })
 })
 
 module.exports = router

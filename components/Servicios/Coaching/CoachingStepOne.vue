@@ -75,9 +75,7 @@ export default {
     },
     passForm() {
       this.$refs.form.validate()
-      //  if(this.valid){
       this.$emit('clicked', this.player)
-      // }
     },
   },
 }

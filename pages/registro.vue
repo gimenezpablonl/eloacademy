@@ -58,5 +58,10 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Registrarse',
+    }
+  },
 }
 </script>

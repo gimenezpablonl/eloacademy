@@ -14,13 +14,10 @@ export default {
   components: {
     UserAuthForm,
   },
-  methods: {
-    loginUser(loginInfo) {
-      this.$store
-        .dispatch('login', loginInfo)
-        .then(() => this.$router.push('/'))
-        .catch((err) => console.log(err))
-    },
+  head() {
+    return {
+      title: 'Iniciar sesión',
+    }
   },
 }
 </script>

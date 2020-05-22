@@ -16,6 +16,11 @@ export default {
   components: {
     Stepper,
   },
+  head() {
+    return {
+      title: 'Servicios',
+    }
+  },
 }
 </script>
 

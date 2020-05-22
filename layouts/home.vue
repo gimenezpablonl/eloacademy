@@ -4,7 +4,7 @@
     :style="{ background: $vuetify.theme.themes[theme].primary }"
   >
     <Navbar />
-    <SystemBar />
+    <SystemBar color="transparent" />
     <Nuxt />
     <Footer />
   </v-app>

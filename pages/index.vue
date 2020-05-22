@@ -21,6 +21,12 @@ export default {
     Prioridades,
     Testimonios,
   },
+  head() {
+    return {
+      title: 'Sube ELO',
+    }
+  },
+  layout: 'home',
 }
 </script>
 

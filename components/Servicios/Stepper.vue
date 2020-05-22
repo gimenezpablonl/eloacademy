@@ -17,39 +17,36 @@
         @back="goBack"
         @clicked="makePlayer"
       />
-      <DuoboostStepOne
+      <CoachingStepOne
         v-if="servicio === 1"
         @back="goBack"
         @clicked="makePlayer"
       />
-      <CoachingStepOne
-        v-if="servicio === 2"
-        @back="goBack"
-        @clicked="makePlayer"
-      />
-      <EloboostStepOne v-if="servicio === 3" />
-      <EloboostStepOne v-if="servicio === 4" />
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 3" step="3">Liga deseada</v-stepper-step>
     <v-stepper-content step="3">
       <EloboostStepTwo
-        v-if="servicio === 0"
+        v-if="servicio === 0 && player.service == 'Divisiones'"
         @back="goBack"
         @clicked="makePlayer"
       />
-      <DuoboostStepTwo
-        v-if="servicio === 1"
+      <EloboostStepTwoMatches
+        v-if="servicio === 0 && player.service == 'Victorias'"
+        @back="goBack"
+        @clicked="makePlayer"
+      />
+      <EloboostStepTwoMatches
+        v-if="servicio === 0 && player.service == 'Partidas de posicionamiento'"
+        placements
         @back="goBack"
         @clicked="makePlayer"
       />
       <CoachingStepTwo
-        v-if="servicio === 2"
+        v-if="servicio === 1"
         @back="goBack"
         @clicked="makePlayer"
       />
-      <EloboostStepTwo v-if="servicio === 3" />
-      <EloboostStepTwo v-if="servicio === 4" />
     </v-stepper-content>
     <v-stepper-step :complete="e6 > 4" step="4">Opcional</v-stepper-step>
     <v-stepper-content step="4">
@@ -58,20 +55,22 @@
         @back="goBack"
         @clicked="makePlayer"
       />
-      <DuoboostStepThree
+      <CoachingStepThree
         v-if="servicio === 1"
         @back="goBack"
         @clicked="makePlayer"
       />
-      <CoachingStepThree
-        v-if="servicio === 2"
-        @back="goBack"
-        @clicked="makePlayer"
-      />
-      <EloboostStepTwo v-if="servicio === 3" />
-      <EloboostStepTwo v-if="servicio === 4" />
     </v-stepper-content>
     <v-stepper-step step="5">¡Listo!</v-stepper-step>
+    <v-stepper-content step="5">
+      <v-btn @click="payService">
+        PAGAR
+      </v-btn>
+      <v-btn @click="goBack">
+        ATRAS
+      </v-btn>
+      {{ player }}
+    </v-stepper-content>
   </v-stepper>
 </template>
 
@@ -79,10 +78,8 @@
 import ServiciosCarousel from '@/components/Servicios/ServiciosCarousel.vue'
 import EloboostStepOne from '@/components/Servicios/Eloboost/EloboostStepOne.vue'
 import EloboostStepTwo from '@/components/Servicios/Eloboost/EloboostStepTwo.vue'
+import EloboostStepTwoMatches from '@/components/Servicios/Eloboost/EloboostStepTwoMatches.vue'
 import EloboostStepThree from '@/components/Servicios/Eloboost/EloboostStepThree.vue'
-import DuoboostStepOne from '@/components/Servicios/Duoboost/DuoboostStepOne.vue'
-import DuoboostStepTwo from '@/components/Servicios/Duoboost/DuoboostStepTwo.vue'
-import DuoboostStepThree from '@/components/Servicios/Duoboost/DuoboostStepThree.vue'
 import CoachingStepOne from '@/components/Servicios/Coaching/CoachingStepOne.vue'
 import CoachingStepTwo from '@/components/Servicios/Coaching/CoachingStepTwo.vue'
 import CoachingStepThree from '@/components/Servicios/Coaching/CoachingStepThree.vue'
@@ -92,9 +89,7 @@ export default {
     EloboostStepOne,
     EloboostStepTwo,
     EloboostStepThree,
-    DuoboostStepOne,
-    DuoboostStepTwo,
-    DuoboostStepThree,
+    EloboostStepTwoMatches,
     CoachingStepOne,
     CoachingStepTwo,
     CoachingStepThree,
@@ -102,11 +97,21 @@ export default {
   data: () => ({
     e6: 1,
     servicio: 2,
-    player: {},
+    player: {
+      username: '',
+      password: '',
+      email: '',
+      phone: '',
+      rank: {
+        league: '',
+        division: '',
+      },
+      service: '',
+    },
   }),
   methods: {
     fun(servicio) {
-      if (servicio === 3) {
+      if (servicio === 2) {
         this.$router.push('/servicios/cuentas')
       } else {
         this.e6 = 2
@@ -119,6 +124,29 @@ export default {
     },
     goBack() {
       this.e6--
+    },
+    async payService() {
+      try {
+        await this.$axios.post('/eloboosts', {
+          username: this.player.username,
+          password: this.player.password,
+          email: this.player.email,
+          phone: this.player.phone,
+          rank: this.player.rank,
+          server: this.player.server,
+          queue: this.player.queue,
+          service: this.player.service,
+          boost: this.player.eloboost,
+          lpGains: this.player.lpGains,
+          desiredLeague: this.player.desiredLeague,
+          desiredDivision: this.player.desiredDivision,
+          wins: this.player.wins,
+          options: this.player.options,
+        })
+        this.$router.push('/eloboostpagado')
+      } catch (e) {
+        this.error = e.response.data.message
+      }
     },
   },
 }

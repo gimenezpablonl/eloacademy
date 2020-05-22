@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-content>
-      <v-container fluid>
+      <v-container>
         <v-sheet elevation="20">
           <AccountCards :accounts="accounts" />
         </v-sheet>
@@ -26,6 +26,11 @@ export default {
     this.$axios.get('/accounts').then((res) => {
       this.accounts = res.data
     })
+  },
+  head() {
+    return {
+      title: 'Venta de cuentas',
+    }
   },
 }
 </script>

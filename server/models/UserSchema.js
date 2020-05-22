@@ -12,6 +12,10 @@ const User = new Schema({
     type: String,
     required: true,
   },
+  admin: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 User.methods.encryptPassword = async (password) => {

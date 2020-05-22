@@ -33,30 +33,31 @@
     "express": "^4.16.4",
     "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.14",
+    "mongoose": "^5.9.15",
     "morgan": "^1.10.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.12.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "swiper": "^5.3.8",
+    "swiper": "^5.4.1",
     "validation-utils": "^4.0.2",
-    "vue-awesome-swiper": "^4.1.1"
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-meta": "^2.3.3"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^2.0.0",
+    "@nuxtjs/eslint-config": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
-    "@nuxtjs/stylelint-module": "^3.1.0",
+    "@nuxtjs/stylelint-module": "^4.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-nuxt": ">=0.4.2",
+    "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.0.0",
-    "lint-staged": "^10.0.0",
-    "nodemon": "^2.0.3",
+    "lint-staged": "^10.2.4",
+    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
-    "stylelint": "^13.3.3"
+    "stylelint": "^13.5.0"
   }
 }

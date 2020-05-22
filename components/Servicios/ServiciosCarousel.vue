@@ -52,19 +52,11 @@ export default {
         img: 'mf.jpg',
       },
       {
-        nombre: 'Duoboost',
-        img: 'Ryze.jpg',
-      },
-      {
         nombre: 'Coaching',
         img: 'Galio.jpg',
       },
       {
         nombre: 'Ventas de cuentas',
-        img: 'Mundo.jpg',
-      },
-      {
-        nombre: 'Level Boost',
         img: 'Sylas.jpg',
       },
     ],

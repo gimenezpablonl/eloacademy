@@ -1,9 +1,17 @@
 <template>
   <div>
-    <ParallaxSeparator
-      src="Sylas.jpg"
-      text="NUESTRAS PRIORIDADES"
-    ></ParallaxSeparator>
+    <v-lazy
+      v-model="parallaxLazy"
+      :options="{
+        threshold: 1,
+      }"
+      transition="slide-x-transition"
+    >
+      <ParallaxSeparator
+        src="Sylas.jpg"
+        text="NUESTRAS PRIORIDADES"
+      ></ParallaxSeparator>
+    </v-lazy>
     <v-container>
       <v-row no-gutters>
         <v-col
@@ -12,24 +20,34 @@
           cols="12"
           sm="3"
         >
-          <v-card color="transparent" flat class="mx-auto my-5">
-            <v-img
-              width="150"
-              class="mx-auto"
-              :src="require(`@/assets/priorities/${prioridad.img}`)"
+          <template>
+            <v-lazy
+              v-model="isActive"
+              :options="{
+                threshold: 1,
+              }"
+              transition="fade-transition"
             >
-            </v-img>
+              <v-card color="transparent" flat class="mx-auto my-5">
+                <v-img
+                  width="150"
+                  class="mx-auto"
+                  :src="require(`@/assets/priorities/${prioridad.img}`)"
+                >
+                </v-img>
 
-            <v-card-subtitle
-              class="pb-1 title opposite--text text-center font-weight-bold"
-            >
-              {{ prioridad.nombre }}
-            </v-card-subtitle>
+                <v-card-subtitle
+                  class="pb-1 title opposite--text text-center font-weight-bold"
+                >
+                  {{ prioridad.nombre }}
+                </v-card-subtitle>
 
-            <v-card-text class="text-center opposite--text">
-              {{ prioridad.descripcion }}
-            </v-card-text>
-          </v-card>
+                <v-card-text class="text-center opposite--text">
+                  {{ prioridad.descripcion }}
+                </v-card-text>
+              </v-card>
+            </v-lazy>
+          </template>
         </v-col>
       </v-row>
     </v-container>
@@ -43,6 +61,8 @@ export default {
     ParallaxSeparator,
   },
   data: () => ({
+    isActive: false,
+    parallaxLazy: false,
     prioridades: [
       {
         nombre: 'Tiempo garantizado',

@@ -14,6 +14,7 @@
         max-height="auto"
         autocomplete
         return-object
+        solo
         @change="onChange($event)"
       >
         <template v-slot:selection="data">
@@ -54,6 +55,7 @@
         color="accent3"
         item-color="opposite"
         label="División"
+        solo
         @change="onChangeDivision($event)"
       >
         <template v-slot:selection="data">

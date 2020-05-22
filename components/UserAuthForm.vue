@@ -6,6 +6,9 @@
       }}</v-tab>
     </template>
     <v-card>
+      <v-alert v-model="error" dismissible type="error">
+        {{ errorMessage }}
+      </v-alert>
       <v-card-title>{{ buttonText }}</v-card-title>
       <v-form v-model="valid">
         <v-container fluid>
@@ -24,7 +27,7 @@
             @click:append="showPassword = !showPassword"
           />
           <v-row no-gutters class="d-flex justify-space-between">
-            <v-btn :disabled="!valid" @click="submitForm(userInfo)">
+            <v-btn :disabled="!valid" @click="loginUser(userInfo)">
               {{ buttonText }}</v-btn
             >
             <v-btn
@@ -44,7 +47,7 @@
 <script>
 import validations from '@/utils/validations'
 export default {
-  props: ['submitForm', 'buttonText'],
+  props: { buttonText: { type: String, default: null } },
   data() {
     return {
       valid: false,
@@ -54,8 +57,21 @@ export default {
         username: 'gimenezpablonl@gmail.com',
         password: 'asdfasdf',
       },
+      error: false,
+      errorMessage: '',
       ...validations,
     }
+  },
+  methods: {
+    loginUser(loginInfo) {
+      this.$store
+        .dispatch('login', loginInfo)
+        .then(() => this.$router.push('/'))
+        .catch((err) => {
+          this.error = true
+          this.errorMessage = err
+        })
+    },
   },
 }
 </script>

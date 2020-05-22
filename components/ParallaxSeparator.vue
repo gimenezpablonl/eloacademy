@@ -22,5 +22,10 @@ export default {
       default: 'text',
     },
   },
+  data() {
+    return {
+      parallaxLazy: false,
+    }
+  },
 }
 </script>

@@ -51,7 +51,6 @@ export default {
       this.$store
         .dispatch('login', loginInfo)
         .then(() => this.$router.push('/'))
-        .catch((err) => console.log(err))
     },
   },
 }

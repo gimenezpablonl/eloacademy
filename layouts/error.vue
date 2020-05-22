@@ -12,9 +12,11 @@
                 <v-card-title class="opposite--text font-weight-bold display-3">
                   ERROR {{ error.statusCode }}</v-card-title
                 >
-                <v-card-text class="opposite--text display-1"
-                  >Página no encontrada</v-card-text
-                >
+                <v-card-text class="opposite--text display-1">{{
+                  error.statusCode === 404
+                    ? 'Página no encontrada'
+                    : 'Ocurrió un error inesperado'
+                }}</v-card-text>
               </v-card>
               <v-card color="transparent" outlined max-width="400">
                 <v-sheet color="transparent">
@@ -33,7 +35,7 @@
 
 <script>
 export default {
-  layout: 'empty',
+  name: 'Error',
   props: {
     error: {
       type: Object,
@@ -42,8 +44,8 @@ export default {
   },
   data() {
     return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred',
+      pageNotFound: 'Error 404',
+      otherError: 'Oops!',
       alignment: 'center',
       justify: 'space-around',
     }
@@ -57,19 +59,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-h1 {
-  font-size: 20px;
-}
-</style>
-
-<style scoped>
-.bottom-gradient {
-  background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.4) 0%,
-    transparent 72px
-  );
-}
-</style>
