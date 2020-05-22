@@ -2,6 +2,9 @@
   "name": "eloacademy",
   "version": "1.0.0",
   "description": "Elo Academy",
+  "engines": {
+    "node": "13.13.x"
+  },
   "author": "Pablo",
   "private": true,
   "scripts": {
