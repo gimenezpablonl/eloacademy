@@ -27,27 +27,22 @@
             <v-list color="primary">
               <v-list-item>
                 <v-list-item-content>
-                  <span class="text-uppercase">{{ item.username }}</span>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <span class="text-uppercase">{{ item.password }}</span>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <span class="text-uppercase">{{ item.email }}</span>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <span class="text-uppercase">{{ item.password }}</span>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
                   <span class="text-uppercase">{{ item.server }}</span>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <span>{{ item.username }}</span>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <span>{{ item.password }}</span>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <span>{{ item.email }}</span>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>

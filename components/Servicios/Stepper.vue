@@ -69,7 +69,6 @@
       <v-btn @click="goBack">
         ATRAS
       </v-btn>
-      {{ player }}
     </v-stepper-content>
   </v-stepper>
 </template>
