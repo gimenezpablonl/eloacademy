@@ -1,3 +1,5 @@
+const development = process.env.NODE_ENV !== 'production'
+
 module.exports = {
   mode: 'universal',
   server: {
@@ -66,7 +68,9 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://localhost:8000/api',
+    baseURL: development
+      ? 'http://localhost:8000/api'
+      : 'https://eloacademy.herokuapp.com/api',
   },
   /*
    ** vuetify module configuration

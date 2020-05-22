@@ -54,8 +54,8 @@ export default {
       showPassword: false,
       dialog: false,
       userInfo: {
-        username: 'gimenezpablonl@gmail.com',
-        password: 'asdfasdf',
+        username: '',
+        password: '',
       },
       error: false,
       errorMessage: '',
