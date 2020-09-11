@@ -1,8 +1,7 @@
 <template>
   <v-row align="center" no-gutters>
-    <v-col class="d-flex" cols="auto">
+    <v-col cols="auto">
       <v-select
-        v-model="e11"
         color="accent3"
         item-color="opposite"
         :items="roles"
@@ -12,7 +11,6 @@
         item-value="name"
         max-height="auto"
         autocomplete
-        solo
         return-object
         @change="onChange($event)"
       >

@@ -4,10 +4,10 @@
       <template>
         <v-row class="mx-4" justify="space-between">
           <v-col cols="auto">
-            <p class="title">Clasificatorias</p>
+            <p class="display-1">Clasificatorias</p>
           </v-col>
           <v-col cols="auto">
-            <p class="title text-uppercase">{{ account.server }}</p>
+            <p class="display-1 text-uppercase">{{ account.server }}</p>
           </v-col>
         </v-row>
         <v-row
@@ -24,7 +24,7 @@
               <v-img
                 v-if="account.previous_rank != undefined"
                 contain
-                max-width="250"
+                max-width="200"
                 :src="
                   require(`@/assets/leagues/${account.previous_rank.league}.png`)
                 "
@@ -36,14 +36,14 @@
             </v-row>
             <v-row justify="center" class="text-uppercase">
               {{ account.previous_rank.league }}
-              {{ getDivision(account.previous_rank.division) }}
+              {{ account.previous_rank.division }}
             </v-row>
           </v-col>
           <v-col cols="auto">
             <v-row justify="center">
               <v-img
                 contain
-                max-width="250"
+                max-width="200"
                 :src="
                   require(`@/assets/leagues/${account.solo_rank.league}.png`)
                 "
@@ -53,51 +53,47 @@
             <v-row justify="center" class="text-uppercase"> SOLO QUEUE </v-row>
             <v-row justify="center" class="text-uppercase">
               {{ account.solo_rank.league }}
-              {{ getDivision(account.solo_rank.division) }}
+              {{ account.solo_rank.division }}
             </v-row>
           </v-col>
           <v-col cols="auto">
             <v-row justify="center">
               <v-img
                 contain
-                max-width="250"
+                max-width="200"
                 :src="
                   require(`@/assets/leagues/${account.flex_rank.league}.png`)
                 "
               >
               </v-img>
             </v-row>
-            <v-row justify="center" class="text-uppercase">
-              flex QUEUE
-            </v-row>
+            <v-row justify="center" class="text-uppercase"> flex QUEUE </v-row>
             <v-row justify="center" class="text-uppercase">
               {{ account.flex_rank.league }}
-              {{ getDivision(account.flex_rank.division) }}
+              {{ account.flex_rank.division }}
             </v-row>
           </v-col>
           <v-col cols="auto">
             <v-row>
               <v-img
                 contain
-                max-width="250"
+                max-width="200"
                 :src="
                   require(`@/assets/leagues/${account.tft_rank.league}.png`)
                 "
               >
               </v-img>
             </v-row>
-            <v-row justify="center" class="text-uppercase">
-              tft
-            </v-row>
+            <v-row justify="center" class="text-uppercase"> tft </v-row>
             <v-row justify="center" class="text-uppercase">
               {{ account.tft_rank.league }}
-              {{ getDivision(account.tft_rank.division) }}
+              {{ account.tft_rank.division }}
             </v-row>
           </v-col>
         </v-row>
         <v-row class="mx-3">
           <v-col cols="auto">
-            <p class="title">
+            <p class="display-1">
               Campeones
               <span
                 v-if="
@@ -107,23 +103,30 @@
               </span>
             </p>
           </v-col>
-        </v-row>
-        <v-row no-gutters class="mx-5" justify="start">
-          <v-col
-            v-for="(champion, idx) in account.champions"
-            :key="idx"
-            cols="auto"
-          >
-            <v-img
-              contain
-              max-width="50"
-              :src="`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${champion}.png`"
-            ></v-img>
+          <v-col cols="auto">
+            <p class="display-1">
+              <span
+                v-if="
+                  account.champions != undefined && account.champions.length > 0
+                "
+              >
+              </span>
+            </p>
           </v-col>
         </v-row>
         <v-row class="mx-3">
           <v-col cols="auto">
-            <p class="title">
+            <ChampionDialog
+              v-if="
+                account.champions != undefined && account.champions.length > 0
+              "
+              :champs="account.champions"
+            />
+          </v-col>
+        </v-row>
+        <v-row class="mx-3">
+          <v-col cols="auto">
+            <p class="display-1">
               Aspectos
               <span
                 v-if="account.skins != undefined && account.skins.length > 0"
@@ -132,40 +135,17 @@
             </p>
           </v-col>
         </v-row>
-        <v-row no-gutters class="mx-5" justify="start">
-          <v-col v-for="(skin, idx) in account.skins" :key="idx" cols="auto">
-            <v-img
-              contain
-              max-width="200"
-              :src="`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-splashes/${skin.champion}/${skin.key}.jpg`"
-            ></v-img>
+        <v-row class="mx-3">
+          <v-col cols="auto">
+            <SkinDialog
+              v-if="account.skins != undefined && account.skins.length > 0"
+              :skins="account.skins"
+            />
           </v-col>
         </v-row>
         <v-row class="mx-3">
           <v-col cols="auto">
-            <p class="title">
-              Iconos de invocador
-              <span
-                v-if="account.icons != undefined && account.icons.length > 0"
-                >({{ account.icons.length }})
-              </span>
-            </p>
-          </v-col>
-        </v-row>
-        <v-row no-gutters class="mx-5" justify="start">
-          <v-col v-for="(icon, idx) in account.icons" :key="idx" cols="auto">
-            <v-img
-              contain
-              max-width="50"
-              :src="`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${icon}.jpg`"
-            ></v-img>
-          </v-col>
-        </v-row>
-        <v-row class="mx-3">
-          <v-col cols="auto">
-            <p class="title">
-              Otros
-            </p>
+            <p class="title">Otros</p>
           </v-col>
         </v-row>
         <v-row class="mx-3" align="center">
@@ -202,8 +182,11 @@
         </v-row>
         <v-row justify="center" align="center" align-content="center">
           <v-col cols="auto" class="title"> ${{ account.price }} </v-col>
-          <v-col cols="auto">
-            <v-btn>comprar</v-btn>
+          <v-col cols="auto" align-self="end">
+            <v-btn color="success" @click="buyAccount()">
+              Comprar cuenta
+              <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
+            </v-btn>
           </v-col>
         </v-row>
       </template>
@@ -212,8 +195,14 @@
 </template>
 
 <script>
+import ChampionDialog from '@/components/Admin/ChampionDialog'
+import SkinDialog from '@/components/Admin/SkinDialog'
 import champions from '@/utils/champions'
 export default {
+  components: {
+    ChampionDialog,
+    SkinDialog,
+  },
   props: {
     account: {
       type: Object,
@@ -237,22 +226,15 @@ export default {
   },
   data() {
     return {
+      url: '',
       champions: Object.values(champions),
     }
   },
   methods: {
-    getDivision(number) {
-      if (number === 1) {
-        return 'I'
-      } else if (number === 2) {
-        return 'II'
-      } else if (number === 3) {
-        return 'III'
-      } else if (number === 4) {
-        return 'IV'
-      } else {
-        return ''
-      }
+    buyAccount() {
+      this.url =
+        'https://wa.me/5493416291344?text=Hola, estaría interesado en comprar la cuenta 5f593a27e67d783204333910'
+      window.open(this.url)
     },
   },
 }

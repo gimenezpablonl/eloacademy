@@ -1,52 +1,66 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <LeaguePicker @changed="pickLeague" @pickedDivision="pickDivision" />
-    <v-row align="center" no-gutters>
-      <v-col class="d-flex" cols="auto" md="5" sm="10">
-        <v-text-field
-          v-model="player.desiredLp"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          value="0"
-          type="number"
-          color="opposite"
-          label="Puntos de liga deseados"
-        ></v-text-field>
+    <v-row>
+      <v-col cols="12">
+        <p>
+          Puedes elegir un rol para orientar el coaching hacia el gameplay
+          específico de ese rol o pasar al siguiente paso.
+        </p>
+        <RolePicker @changed="pickRole" />
       </v-col>
-      <v-spacer></v-spacer>
+      <v-col cols="auto" md="12">
+        <p>
+          Puedes elegir un campeón para orientar el coaching hacia el gameplay
+          específico de ese campeón o pasar al siguiente paso.
+        </p>
+        <ChampionsPicker @changed="pickChampions" />
+      </v-col>
     </v-row>
     <v-row align="center" justify="end">
       <v-col cols="auto" align-self="end">
-        <v-btn @click="passForm()">Siguiente</v-btn>
+        <v-btn color="secondary" @click="$emit('back')">
+          Volver
+          <v-icon dark right>mdi-arrow-left</v-icon>
+        </v-btn>
       </v-col>
       <v-col cols="auto" align-self="end">
-        <v-btn outlined @click="$emit('back')">Volver</v-btn>
+        <v-btn color="success" @click="passForm()">
+          Solicitar eloboost
+          <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-form>
 </template>
 
 <script>
-import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
+import ChampionsPicker from '@/components/Servicios/ChampionsPicker.vue'
+import RolePicker from '@/components/Servicios/RolePicker'
 export default {
   components: {
-    LeaguePicker,
+    ChampionsPicker,
+    RolePicker,
   },
   data: () => ({
     valid: true,
-    lpGains: ['1-10', '10-14', '15-17', '18-24+'],
-    player: { desiredLeague: '', desiredDivision: 'I' },
+    checkbox: true,
+    player: {
+      role: [],
+      champions: [],
+    },
   }),
   methods: {
-    pickLeague(league) {
-      this.player.desiredLeague = league
-    },
-    pickDivision(division) {
-      this.player.desiredDivision = division
-    },
     passForm() {
       this.$refs.form.validate()
-      this.$emit('clicked', this.player)
+      if (this.valid) {
+        this.$emit('finished', this.player)
+      }
+    },
+    pickRole(role) {
+      this.player.role = role
+    },
+    pickChampions(e) {
+      this.player.champions = e
     },
   },
 }

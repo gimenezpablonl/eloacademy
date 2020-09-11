@@ -1,121 +1,77 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <v-row>
-      <v-col cols="12">
-        <v-checkbox
-          v-model="player.options.quickService"
-          color="accent3"
-          label="Servicio rápido"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="12">
-        <v-checkbox
-          v-model="player.options.streaming"
-          color="accent3"
-          label="Streaming"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="12">
-        <v-checkbox
-          v-model="player.options.hiddenChat"
-          color="accent3"
-          label="Servicio de chat desactivado"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="12">
-        <RolePicker @changed="pickRole" />
-      </v-col>
-      <v-col cols="12">
-        <ChampionsPicker @changed="pickChampions" />
-      </v-col>
-    </v-row>
-    <v-row align="center">
+    <LeaguePicker
+      v-if="service === 'Divisiones'"
+      @changed="pickLeague"
+      @pickedDivision="pickDivision"
+    />
+    <v-row v-if="service === 'Victorias'" align="center" no-gutters>
       <v-col class="d-flex" cols="auto" md="5" sm="10">
         <v-text-field
-          v-model="player.username"
+          v-model="player.wins"
           :rules="[(v) => !!v || 'Necesario']"
           required
           color="opposite"
-          label="Nombre de usuario"
-        ></v-text-field>
-      </v-col>
-      <v-col class="d-flex" cols="auto" md="5" sm="10">
-        <v-text-field
-          v-model="player.password"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          type="password"
-          color="opposite"
-          label="Contraseña"
-        ></v-text-field>
-      </v-col>
-      <v-col class="d-flex" cols="auto" md="5" sm="10">
-        <v-text-field
-          v-model="player.email"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          color="opposite"
-          label="Email"
-        ></v-text-field>
-      </v-col>
-      <v-col class="d-flex" cols="auto" md="5" sm="10">
-        <v-text-field
-          v-model="player.phone"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          color="opposite"
-          label="Número de teléfono"
+          label="Victorias"
+          type="number"
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row align="center" justify="end">
-      <v-col cols="12" align-self="end">
-        <v-btn @click="passForm()">Siguiente</v-btn>
+      <v-col cols="auto" align-self="end">
+        <v-btn color="secondary" @click="$emit('back')">
+          Volver
+          <v-icon dark right>mdi-arrow-left</v-icon>
+        </v-btn>
       </v-col>
-      <v-col cols="12" align-self="end">
-        <v-btn outlined @click="$emit('back')">Volver</v-btn>
+      <v-col cols="auto" align-self="end">
+        <v-btn :disabled="!valid" color="accent2" @click="passForm()">
+          Siguiente
+          <v-icon dark right>mdi-arrow-right</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-form>
 </template>
 
 <script>
-import ChampionsPicker from '@/components/Servicios/ChampionsPicker.vue'
-import RolePicker from '@/components/Servicios/RolePicker'
+import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
 export default {
   components: {
-    ChampionsPicker,
-    RolePicker,
+    LeaguePicker,
+  },
+  props: {
+    service: {
+      type: String,
+      default() {
+        return ''
+      },
+    },
   },
   data: () => ({
     valid: true,
-    checkbox: true,
+    lpGains: ['1-10', '10-14', '15-17', '18-24+'],
     player: {
-      username: '',
-      password: '',
-      email: '',
-      phone: '',
-      options: {
-        quickService: false,
-        streaming: false,
-        hiddenChat: false,
-        role: [],
-        champions: [],
+      wins: 0,
+
+      desiredRank: {
+        league: '',
+        division: '',
       },
     },
   }),
   methods: {
+    pickLeague(league) {
+      this.player.desiredRank.league = league
+    },
+    pickDivision(division) {
+      this.player.desiredRank.division = division
+    },
     passForm() {
       this.$refs.form.validate()
       if (this.valid) {
         this.$emit('clicked', this.player)
       }
-    },
-    pickChampions(e) {
-      this.player.options.champions = e
-    },
-    pickRole(role) {
-      this.player.options.role = role
     },
   },
 }

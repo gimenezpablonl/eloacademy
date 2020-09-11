@@ -1,26 +1,21 @@
 <template>
   <v-select
-    v-model="e11"
+    v-model="defLocal"
     color="accent3"
     item-color="opposite"
     :rules="[(v) => !!v || 'Necesario']"
     required
     :items="queues"
-    label="Cola"
     item-text="name"
-    item-value="name"
-    max-height="auto"
-    autocomplete
-    return-object
-    solo
-    @change="onChange($event)"
+    item-value="code"
+    label="Cola"
   >
     <template v-slot:selection="data">
       <v-avatar>
         <v-img
           max-height="30"
           max-width="30"
-          :src="require(`@/assets/queue/${data.item.avatar}`)"
+          :src="require(`@/assets/queue/${data.item.avatar}.svg`)"
         />
       </v-avatar>
       {{ data.item.name }}
@@ -28,7 +23,7 @@
     <template v-slot:item="data">
       <template>
         <v-img
-          :src="require(`@/assets/queue/${data.item.avatar}`)"
+          :src="require(`@/assets/queue/${data.item.avatar}.svg`)"
           class="mr-5"
           max-height="30"
           max-width="30"
@@ -41,23 +36,32 @@
 
 <script>
 export default {
+  model: {
+    prop: 'def',
+    event: 'defchange',
+  },
+  props: {
+    def: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
-    const srcs = {
-      1: 'solo.svg',
-      2: 'flex.svg',
-    }
-
     return {
-      e11: '',
       queues: [
-        { code: 'solo', name: 'Solo/Dúo', avatar: srcs[1] },
-        { code: 'flex', name: 'Flexible', avatar: srcs[2] },
+        { code: 'false', name: 'Cola solo/dúo', avatar: 'Solo' },
+        { code: 'true', name: 'Cola flexible', avatar: 'Flex' },
       ],
     }
   },
-  methods: {
-    onChange(event) {
-      this.$emit('changed', event.code)
+  computed: {
+    defLocal: {
+      get() {
+        return this.def
+      },
+      set(value) {
+        this.$emit('defchange', value)
+      },
     },
   },
 }

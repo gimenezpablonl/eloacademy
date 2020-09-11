@@ -4,14 +4,14 @@
       <v-container fluid>
         <v-row>
           <v-col>
-            <v-row :align="alignment" :justify="justify" style="height: 700px;">
+            <v-row :align="alignment" :justify="justify" style="height: 700px">
               <v-lazy v-model="presentationLazy" transition="scale-transition">
                 <v-card color="transparent" outlined>
                   <v-card-title
-                    class="opposite--text font-weight-bold display-3"
+                    class="opposite--text font-weight-bold display-4"
                     >Sube ELO</v-card-title
                   >
-                  <v-card-text class="opposite--text display-1"
+                  <v-card-text class="opposite--text display-2"
                     >Asistencia virtual personalizada</v-card-text
                   >
                 </v-card>

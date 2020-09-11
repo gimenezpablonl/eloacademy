@@ -4,22 +4,16 @@
     :style="{ background: $vuetify.theme.themes[theme].primary }"
   >
     <Navbar />
-    <SystemBar color="transparent" />
     <Nuxt />
-    <Footer />
   </v-app>
 </template>
 
 <script>
-import SystemBar from '@/components/SystemBar.vue'
 import Navbar from '@/components/Navbar.vue'
-import Footer from '@/components/Footer.vue'
 export default {
   name: 'App',
   components: {
     Navbar,
-    Footer,
-    SystemBar,
   },
 
   data: () => ({
@@ -45,9 +39,4 @@ export default {
   },
 }
 </script>
-
-<style>
-#main {
-  margin-left: -1px;
-}
-</style>
+<style></style>

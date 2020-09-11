@@ -10,11 +10,7 @@
       <template v-slot:header>
         <v-toolbar flat color="transparent" class="mb-1">
           <v-spacer></v-spacer>
-          <v-btn
-            dark
-            color="dark"
-            nuxt-link
-            :to="{ name: 'servicios-cuentas-venta' }"
+          <v-btn nuxt-link :to="{ name: 'servicios-cuentas-vender' }"
             >VENDER CUENTA</v-btn
           >
         </v-toolbar>
@@ -29,7 +25,7 @@
             md="4"
             lg="3"
           >
-            <v-card color="primary">
+            <v-card raised>
               <v-card-title>
                 <v-row no-gutters align="center">
                   <v-col cols="4">
@@ -50,7 +46,7 @@
               </v-card-title>
               <v-divider></v-divider>
 
-              <v-list color="primary">
+              <v-list>
                 <v-list-item>
                   <v-list-item-avatar>
                     <v-img
@@ -69,9 +65,7 @@
                       "
                     ></v-img>
                   </v-list-item-avatar>
-                  <v-list-item-content>
-                    TEMPORADA 2019
-                  </v-list-item-content>
+                  <v-list-item-content> TEMPORADA 2019 </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-avatar>
@@ -81,9 +75,7 @@
                       "
                     ></v-img>
                   </v-list-item-avatar>
-                  <v-list-item-content>
-                    TFT
-                  </v-list-item-content>
+                  <v-list-item-content> TFT </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-avatar>
@@ -93,9 +85,7 @@
                       "
                     ></v-img>
                   </v-list-item-avatar>
-                  <v-list-item-content>
-                    COLA FLEXIBLE
-                  </v-list-item-content>
+                  <v-list-item-content> COLA FLEXIBLE </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-avatar>
@@ -126,7 +116,7 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-switch
-                      flat
+                      validate-on-blur
                       color="accent3"
                       :input-value="isExpanded(item)"
                       label="Ver más"
@@ -156,16 +146,6 @@
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-if="isExpanded(item)">
-                  <v-list-item-avatar>
-                    <v-img
-                      :src="require(`@/assets/icons/profileicon0.png`)"
-                    ></v-img>
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    {{ item.icons.length }}
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-if="isExpanded(item)">
                   <v-list-item-content>
                     Precio: ${{ item.price }}
                   </v-list-item-content>
@@ -188,7 +168,8 @@
         </v-row>
       </template>
       <template v-slot:footer>
-        <v-pagination v-model="page" :length="numberOfPages"> </v-pagination>
+        <v-pagination v-model="page" color="accent3" :length="numberOfPages">
+        </v-pagination>
       </template>
     </v-data-iterator>
   </v-container>

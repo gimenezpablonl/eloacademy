@@ -1,20 +1,32 @@
 <template>
   <v-content>
     <v-container>
-      <v-row>
-        <Stepper />
-      </v-row>
+      <v-card>
+        <v-card-title>Seleccionar un servicio</v-card-title>
+        <ServiciosCarousel @clicked="fun" />
+      </v-card>
     </v-container>
   </v-content>
 </template>
 
 <script>
-// @ is an alias to /src
-import Stepper from '@/components/Servicios/Stepper.vue'
+import ServiciosCarousel from '@/components/Servicios/ServiciosCarousel.vue'
 export default {
-  name: 'Servicios',
   components: {
-    Stepper,
+    ServiciosCarousel,
+  },
+  methods: {
+    fun(servicio) {
+      if (servicio === 0) {
+        this.$router.push('/servicios/eloboost')
+      }
+      if (servicio === 1) {
+        this.$router.push('/servicios/coaching')
+      }
+      if (servicio === 2) {
+        this.$router.push('/servicios/cuentas')
+      }
+    },
   },
   head() {
     return {
@@ -23,9 +35,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.home {
-  margin-left: -1px;
-}
-</style>

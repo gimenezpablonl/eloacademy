@@ -1,38 +1,31 @@
 <template>
   <v-select
-    v-model="e11"
+    v-model="defLocal"
     color="accent3"
     item-color="opposite"
     :items="servers"
     :rules="[(v) => !!v || 'Necesario']"
     required
     label="Servidor"
-    item-text="name"
-    item-value="name"
-    max-height="auto"
-    autocomplete
-    return-object
-    solo
-    @change="onChange($event)"
   >
     <template v-slot:selection="data">
       <v-avatar>
         <v-img
           max-width="40"
-          :src="require(`@/assets/servers/${data.item.avatar}`)"
+          :src="require(`@/assets/servers/${data.item}.png`)"
         />
       </v-avatar>
-      {{ data.item.name }}
+      {{ data.item }}
     </template>
     <template v-slot:item="data">
       <template>
         <v-img
-          :src="require(`@/assets/servers/${data.item.avatar}`)"
+          :src="require(`@/assets/servers/${data.item}.png`)"
           max-height="50"
           max-width="50"
           class="mr-5"
         />
-        {{ data.item.name }}
+        {{ data.item }}
       </template>
     </template>
   </v-select>
@@ -40,27 +33,29 @@
 
 <script>
 export default {
+  model: {
+    prop: 'def',
+    event: 'defchange',
+  },
+  props: {
+    def: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
-    const srcs = {
-      1: 'na.png',
-      2: 'lan.png',
-      3: 'las.png',
-      4: 'br.png',
-    }
-
     return {
-      e11: '',
-      servers: [
-        { code: 'na', name: 'Norteamérica', avatar: srcs[1] },
-        { code: 'lan', name: 'Latinoamérica Norte', avatar: srcs[2] },
-        { code: 'las', name: 'Latinoamérica Sur', avatar: srcs[3] },
-        { code: 'br', name: 'Brasil', avatar: srcs[4] },
-      ],
+      servers: ['LAS', 'BR', 'LAN', 'NA'],
     }
   },
-  methods: {
-    onChange(event) {
-      this.$emit('changed', event.code)
+  computed: {
+    defLocal: {
+      get() {
+        return this.def
+      },
+      set(value) {
+        this.$emit('defchange', value)
+      },
     },
   },
 }

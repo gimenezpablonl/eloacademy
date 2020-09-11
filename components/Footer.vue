@@ -1,50 +1,33 @@
 <template>
-  <v-footer
-    :app="absolute"
-    :absolute="absolute"
-    class="pt-10"
-    color="transparent"
-  >
-    <template>
-      <v-row>
-        <v-col cols="12" sm="4">
-          <v-img contain max-width="300" src="/isologotype.svg"></v-img>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-row class="mx-auto">Términos y condiciones</v-row>
-          <v-row class="mx-auto">Politicas de privacidad</v-row>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-row class="mx-auto">Soporte</v-row>
-          <v-row class="mx-auto">
-            <v-switch
-              v-model="$vuetify.theme.dark"
-              hide-details
-              color="secondary"
-              label="Tema oscuro"
-            ></v-switch
-          ></v-row>
-        </v-col>
-        <v-col class="text-center" cols="12">
-          {{ new Date().getFullYear() }} — <strong>Elo Academy</strong>
-        </v-col>
+  <v-footer :app="app" :absolute="absolute" color="transparent">
+    <v-card flat tile class="transparent opposite--text text-xs-center flex">
+      <v-row align="end" align-content="end" justify="end">
         <v-col>
-          <p class="overline">
-            Elo Academy isn’t endorsed by Riot Games and doesn’t reflect the
-            views or opinions of Riot Games or anyone officially involved in
-            producing or managing League of Legends. League of Legends and Riot
-            Games are trademarks or registered trademarks of Riot Games, Inc.
-            League of Legends © Riot Games, Inc.
-          </p></v-col
-        >
+          <v-row justify="end" class="mx-auto"
+            ><v-switch
+              v-model="$vuetify.theme.dark"
+              label="Modo oscuro"
+            ></v-switch>
+          </v-row>
+          <v-row justify="end" class="mx-auto">Términos y condiciones</v-row>
+          <v-row justify="end" class="mx-auto">Politicas de privacidad</v-row>
+        </v-col>
       </v-row>
-    </template>
+      <v-divider></v-divider>
+
+      <v-card-text class="opposite--text text-center">
+        &copy;{{ new Date().getFullYear() }} - <strong>Elo Academy</strong>
+      </v-card-text>
+    </v-card>
   </v-footer>
 </template>
-
 <script>
 export default {
   props: {
+    app: {
+      type: Boolean,
+      default: false,
+    },
     absolute: {
       type: Boolean,
       default: false,

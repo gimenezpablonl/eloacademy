@@ -26,5 +26,10 @@ export default {
         this.account = res.data.account
       })
   },
+  head() {
+    return {
+      title: 'Detalle de cuenta',
+    }
+  },
 }
 </script>

@@ -1,66 +1,34 @@
 <template>
   <v-form ref="form" v-model="valid">
     <v-row align="center" justify="space-between" no-gutters>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
-        <ServerPicker @changed="pickServer" />
+      <v-col class="d-flex" cols="5" md="5" sm="10">
+        <ServerPicker @defchange="pickServer" />
       </v-col>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
-        <queuePicker @changed="pickQueue" />
+      <v-col class="d-flex" cols="5" md="5" sm="10">
+        <QueuePicker @defchange="pickQueue" />
       </v-col>
     </v-row>
     <LeaguePicker @changed="pickLeague" @pickedDivision="pickDivision" />
-    <v-row align="center" justify="space-between" no-gutters>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
-        <v-select
-          v-model="player.service"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          color="opposite"
-          item-color="accent3"
-          :items="services"
-          label="Tipo de Servicio"
-          solo
-        ></v-select>
-      </v-col>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
-        <v-select
-          v-model="player.eloboost"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          color="opposite"
-          item-color="accent3"
-          :items="eloboosts"
-          label="Tipo de eloboost"
-          solo
-        ></v-select>
-      </v-col>
+    <v-row>
       <v-col
-        v-if="player.service != 'Partidas de posicionamiento'"
+        v-if="player.rank.league !== 'Unranked'"
         class="d-flex"
-        cols="6"
+        cols="5"
         md="5"
         sm="10"
       >
         <v-text-field
-          v-if="player.service != 'Victorias'"
           v-model="player.lp"
-          :rules="[
-            (v) => !!v || 'Necesario',
-            (v) => v <= 100 || 'No puedes tener más de 100PDL.',
-          ]"
-          required
+          :rules="[(v) => !!v || 'Necesario', (v) => v <= maxLp || 'Inválido']"
           type="number"
           color="opposite"
           label="Puntos de liga actuales"
-          solo
         ></v-text-field>
       </v-col>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
+      <v-spacer></v-spacer>
+      <v-col class="d-flex" cols="5" md="5" sm="10">
         <v-select
-          v-if="
-            player.service != 'Partidas de posicionamiento' &&
-            player.service != 'Victorias'
-          "
+          v-if="player.rank.league !== 'Unranked' && player.rank.league"
           v-model="player.lpGain"
           :rules="[(v) => !!v || 'Necesario']"
           required
@@ -68,16 +36,15 @@
           item-color="accent3"
           :items="lpGains"
           label="Puntos de liga por victoria"
-          solo
         ></v-select>
       </v-col>
     </v-row>
     <v-row align="center" justify="end">
       <v-col cols="auto" align-self="end">
-        <v-btn @click="passForm()">Siguiente</v-btn>
-      </v-col>
-      <v-col cols="auto" align-self="end">
-        <v-btn outlined @click="$emit('back')">Volver</v-btn>
+        <v-btn :disabled="!valid" color="accent2" @click="passForm()">
+          Siguiente
+          <v-icon dark right>mdi-arrow-right</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-form>
@@ -96,28 +63,22 @@ export default {
   data: () => ({
     valid: true,
     lpGains: ['1-10', '10-14', '15-17', '18-24+'],
-    eloboosts: ['Soloboost', 'Duoboost'],
-    services: ['Divisiones', 'Victorias'],
+    maxLp: 100,
     player: {
+      server: '',
+      queue: false,
       rank: {
         league: '',
         division: '',
       },
-      server: '',
-      queue: '',
-      service: '',
-      eloboost: '',
+      lp: 0,
+      lpGain: 0,
     },
   }),
   methods: {
     pickLeague(league) {
       this.player.rank.league = league
-      if (league === 'unranked') {
-        this.services = ['Partidas de posicionamiento']
-        this.player.service = 'Partidas de posicionamiento'
-      } else {
-        this.services = ['Divisiones', 'Victorias']
-      }
+      this.maximazeLp()
     },
     pickDivision(division) {
       this.player.rank.division = division
@@ -126,7 +87,11 @@ export default {
       this.player.server = server
     },
     pickQueue(queue) {
-      this.player.queue = queue
+      if (queue == 'true') {
+        this.player.queue = true
+      } else {
+        this.player.queue = false
+      }
     },
     passForm() {
       this.$refs.form.validate()
@@ -134,10 +99,21 @@ export default {
         this.$emit('clicked', this.player)
       }
     },
+    maximazeLp() {
+      if (
+        this.player.rank.league == 'Challenger' ||
+        this.player.rank.league == 'Master' ||
+        this.player.rank.league == 'Grandmaster'
+      ) {
+        this.maxLp = 2000
+      } else {
+        this.maxLp = 100
+      }
+    },
   },
   head() {
     return {
-      title: 'Sube ELO',
+      title: 'Eloboost',
     }
   },
 }

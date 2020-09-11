@@ -7,7 +7,7 @@
       <v-container fluid>
         <v-row>
           <v-col>
-            <v-row :align="alignment" :justify="justify" style="height: 700px;">
+            <v-row :align="alignment" :justify="justify" style="height: 700px">
               <v-card color="transparent" outlined>
                 <v-card-title class="opposite--text font-weight-bold display-3">
                   ERROR {{ error.statusCode }}</v-card-title
@@ -35,6 +35,7 @@
 
 <script>
 export default {
+  layout: 'nofb',
   name: 'Error',
   props: {
     error: {

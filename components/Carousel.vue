@@ -46,8 +46,6 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
-
 export default {
   name: 'SwiperExampleAutoplay',
   title: 'Autoplay',
@@ -58,7 +56,7 @@ export default {
   data: () => ({
     testimonios: [
       {
-        img: 'leagues/platinum.png',
+        img: 'leagues/Platinum.png',
         type: 'duoboost',
         server: 'LAS',
         date: '18/05/2020',
@@ -67,7 +65,7 @@ export default {
         valor: 5,
       },
       {
-        img: 'leagues/gold.png',
+        img: 'leagues/Gold.png',
         type: 'eloboost',
         server: 'BR',
         date: '18/05/2020',
@@ -75,7 +73,7 @@ export default {
         valor: 4,
       },
       {
-        img: 'leagues/challenger.png',
+        img: 'leagues/Challenger.png',
         type: 'eloboost',
         server: 'LAS',
         date: '18/05/2020',
@@ -83,7 +81,7 @@ export default {
         valor: 5,
       },
       {
-        img: 'leagues/diamond.png',
+        img: 'leagues/Diamond.png',
         type: 'coaching',
         server: 'br',
         date: '18/05/2020',
@@ -91,7 +89,7 @@ export default {
         valor: 5,
       },
       {
-        img: 'leagues/silver.png',
+        img: 'leagues/Silver.png',
         type: 'eloboost',
         server: 'lan',
         date: '18/05/2020',
@@ -99,7 +97,7 @@ export default {
         valor: 4,
       },
       {
-        img: 'leagues/diamond.png',
+        img: 'leagues/Diamond.png',
         type: 'eloboost',
         server: 'LAS',
         date: '18/05/2020',
@@ -107,7 +105,7 @@ export default {
         valor: 5,
       },
       {
-        img: 'leagues/diamond.png',
+        img: 'leagues/Diamond.png',
         type: 'coaching',
         server: 'na',
         date: '18/05/2020',
@@ -115,7 +113,7 @@ export default {
         valor: 5,
       },
       {
-        img: 'leagues/diamond.png',
+        img: 'leagues/Diamond.png',
         type: 'coaching',
         server: 'na',
         date: '18/05/2020',

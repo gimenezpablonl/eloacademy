@@ -5,38 +5,51 @@
         buttonText
       }}</v-tab>
     </template>
-    <v-card>
-      <v-alert v-model="error" dismissible type="error">
-        {{ errorMessage }}
-      </v-alert>
-      <v-card-title>{{ buttonText }}</v-card-title>
-      <v-form v-model="valid">
-        <v-container fluid>
-          <v-text-field
-            v-model="userInfo.username"
-            label="Email"
-            :rules="[required('email'), emailFormat()]"
-          />
-          <v-text-field
-            v-model="userInfo.password"
-            label="Password"
-            :type="showPassword ? 'text' : 'password'"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            counter="true"
-            :rules="[required('password'), minLength('password', 8)]"
-            @click:append="showPassword = !showPassword"
-          />
-          <v-row no-gutters class="d-flex justify-space-between">
-            <v-btn :disabled="!valid" @click="loginUser(userInfo)">
-              {{ buttonText }}</v-btn
-            >
-            <v-btn
-              color="accent2"
-              nuxt-link
-              to="/registro"
-              @click="dialog = false"
-              >Registrarse</v-btn
-            >
+    <v-card :loading="loading" shaped width="500">
+      <v-form ref="form" v-model="valid">
+        <v-container class="px-10">
+          <v-row class="px-5" align="center" justify="center" no-gutters>
+            <v-col cols="12" class="px-0">
+              <v-alert v-model="error" dismissible type="error" @input="close">
+                {{ errorMessage }}
+              </v-alert>
+            </v-col>
+            <v-col cols="12">
+              <v-card-title class="justify-center">Iniciar sesión</v-card-title>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="userInfo.username"
+                label="Nombre de usuario"
+                required
+                outlined
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="userInfo.password"
+                label="Contraseña"
+                type="password"
+                required
+                outlined
+              ></v-text-field>
+            </v-col>
+            <v-col cols="auto" class="my-3">
+              <v-btn
+                :disabled="!valid"
+                :loading="loading"
+                class="text-center"
+                color="accent2"
+                @click="login(userInfo)"
+              >
+                Iniciar sesión
+              </v-btn>
+            </v-col>
+            <v-col cols="auto">
+              <a href="/registro" class="opposite--text"
+                >No tengo cuenta, quiero registrarme</a
+              >
+            </v-col>
           </v-row>
         </v-container>
       </v-form>
@@ -45,7 +58,6 @@
 </template>
 
 <script>
-import validations from '@/utils/validations'
 export default {
   props: { buttonText: { type: String, default: null } },
   data() {
@@ -53,17 +65,18 @@ export default {
       valid: false,
       showPassword: false,
       dialog: false,
+      loading: false,
       userInfo: {
         username: '',
         password: '',
       },
       error: false,
       errorMessage: '',
-      ...validations,
     }
   },
   methods: {
-    loginUser(loginInfo) {
+    login(loginInfo) {
+      this.loading = true
       this.$store
         .dispatch('login', loginInfo)
         .then(() => this.$router.push('/'))
@@ -72,8 +85,9 @@ export default {
           this.errorMessage = err
         })
     },
+    close() {
+      this.loading = false
+    },
   },
 }
 </script>
-
-<style lang="scss" scoped></style>

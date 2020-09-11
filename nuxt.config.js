@@ -1,17 +1,16 @@
 const development = process.env.NODE_ENV !== 'production'
 
 module.exports = {
-  mode: 'universal',
   server: {
-    port: 8000, // default: 3000
-    host: '0.0.0.0', // default: localhost
+    port: process.env.PORT ? process.env.PORT : 8000, // default: 3000 SI NO FUNCIONA ES ESTO
+    host: process.env.PORT ? '0.0.0.0' : 'localhost', // default: localhost SI NO FUNCIONA ES ESTO
   },
   /*
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - Elo Academy',
-    title: 'Elo Academy',
+    titleTemplate: '%s - Eloboost Academy',
+    title: 'Eloboost Academy',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -28,6 +27,7 @@ module.exports = {
         href:
           'https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
       },
+      { rel: 'stylesheet', href: 'https://unpkg.com/swiper/swiper-bundle.css' },
     ],
   },
   /*
@@ -41,7 +41,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '~/plugins/localStorage.js', ssr: false }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -87,6 +87,11 @@ module.exports = {
           accent: '#fdfa77',
           accent2: '#229fe1',
           accent3: '#c37e09',
+          instagram: '#C13584',
+          discord: '#7289da',
+          facebook: '#3b5998',
+          twitter: '#0084b4',
+          whatsapp: '#128C7E',
           error: '#b71c1c',
           opposite: '#44465b',
           light: '#e2dfce',
@@ -98,6 +103,11 @@ module.exports = {
           accent: '#fdfa77',
           accent2: '#229fe1',
           accent3: '#c37e09',
+          instagram: '#C13584',
+          discord: '#7289da',
+          facebook: '#3b5998',
+          twitter: '#0084b4',
+          whatsapp: '#128C7E',
           error: '#b71c1c',
           opposite: '#e2dfce',
           light: '#e2dfce',
@@ -121,7 +131,11 @@ module.exports = {
           options: {
             fix: true,
           },
-        })
+        }),
+          config.module.rules.push({
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader'],
+          })
       }
     },
   },

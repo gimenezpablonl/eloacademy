@@ -4,27 +4,23 @@
     :style="{ background: $vuetify.theme.themes[theme].primary }"
   >
     <Navbar />
-    <SystemBar />
     <Nuxt />
+    <FABIcon />
     <Footer />
   </v-app>
 </template>
 
 <script>
-import SystemBar from '@/components/SystemBar.vue'
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
+import FABIcon from '@/components/FABIcon.vue'
 export default {
   name: 'App',
   components: {
     Navbar,
     Footer,
-    SystemBar,
+    FABIcon,
   },
-
-  data: () => ({
-    //
-  }),
   computed: {
     theme() {
       return this.$vuetify.theme.dark ? 'dark' : 'light'
@@ -45,9 +41,3 @@ export default {
   },
 }
 </script>
-
-<style>
-#main {
-  margin-left: -1px;
-}
-</style>

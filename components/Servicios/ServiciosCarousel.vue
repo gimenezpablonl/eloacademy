@@ -36,7 +36,6 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
 
 export default {
   name: 'SwiperExampleAutoplay',
@@ -56,7 +55,7 @@ export default {
         img: 'Galio.jpg',
       },
       {
-        nombre: 'Ventas de cuentas',
+        nombre: 'Mercado de cuentas',
         img: 'Sylas.jpg',
       },
     ],

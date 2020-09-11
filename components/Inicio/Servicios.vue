@@ -9,7 +9,7 @@
     >
       <ParallaxSeparator
         :src="'Galio.jpg'"
-        :text="'NUESTROS SERVICIOS'"
+        :text="'Nuestros servicios'"
       ></ParallaxSeparator>
     </v-lazy>
     <v-container>
@@ -44,7 +44,7 @@
                       <div
                         v-if="hover"
                         class="d-flex transition-fast-in-fast-out accent3 darken-2 v-card--reveal title dark--text"
-                        style="height: 100%;"
+                        style="height: 100%"
                       ></div>
                     </v-expand-transition>
                   </v-img>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ParallaxSeparator src="Ryze.jpg" text="SUS TESTIMONIOS" />
+    <ParallaxSeparator src="Ryze.jpg" text="Sus testimonios" />
     <v-lazy
       v-model="testimonioLazy"
       :options="{

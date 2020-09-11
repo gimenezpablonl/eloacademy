@@ -8,13 +8,21 @@ const User = new Schema({
     required: true,
     unique: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   password: {
     type: String,
     required: true,
   },
-  admin: {
-    type: Boolean,
-    default: true,
+  role: {
+    // 0 = usuario, 1 = booster, 2 = admin
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 2,
   },
 })
 

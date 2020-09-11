@@ -9,7 +9,7 @@
     >
       <ParallaxSeparator
         src="Sylas.jpg"
-        text="NUESTRAS PRIORIDADES"
+        text="Nuestras prioridades"
       ></ParallaxSeparator>
     </v-lazy>
     <v-container>

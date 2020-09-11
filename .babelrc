@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    "transform-vue-jsx",
+    "transform-runtime",
+    ["wildcard", {
+      "exts": ["js", "es6", "es", "jsx", "javascript", "vue"]
+    }]
+  ],
+}

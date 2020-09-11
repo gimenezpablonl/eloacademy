@@ -1,58 +1,97 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <LeaguePicker @changed="pickLeague" @pickedDivision="pickDivision" />
-    <v-row align="center" no-gutters>
-      <v-col class="d-flex" cols="auto" md="5" sm="10">
-        <v-text-field
-          v-model="player.desiredLp"
-          :rules="[
-            (v) => !!v || 'Necesario',
-            (v) => v <= 100 || 'No puedes tener más de 100PDL.',
-          ]"
+    <v-row align="center" justify="space-between" no-gutters>
+      <v-col class="d-flex" cols="6" md="5" sm="10">
+        <v-select
+          v-model="player.service"
+          :rules="[(v) => !!v || 'Necesario']"
           required
-          value="0"
-          type="number"
           color="opposite"
-          label="Puntos de liga deseados"
-        ></v-text-field>
+          item-color="accent3"
+          :items="services"
+          label="Tipo de Servicio"
+        ></v-select>
       </v-col>
-      <v-spacer></v-spacer>
+      <v-col class="d-flex" cols="6" md="5" sm="10">
+        <v-select
+          v-model="player.eloboost"
+          :rules="[(v) => !!v || 'Necesario']"
+          required
+          color="opposite"
+          item-color="accent3"
+          :items="eloboosts"
+          item-text="text"
+          item-value="value"
+          label="Tipo de eloboost"
+        ></v-select>
+      </v-col>
     </v-row>
     <v-row align="center" justify="end">
       <v-col cols="auto" align-self="end">
-        <v-btn @click="passForm()">Siguiente</v-btn>
+        <v-btn color="secondary" @click="$emit('back')">
+          Volver
+          <v-icon dark right>mdi-arrow-left</v-icon>
+        </v-btn>
       </v-col>
       <v-col cols="auto" align-self="end">
-        <v-btn outlined @click="$emit('back')">Volver</v-btn>
+        <v-btn :disabled="!valid" color="accent2" @click="passForm()">
+          Siguiente
+          <v-icon dark right>mdi-arrow-right</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-form>
 </template>
 
 <script>
-import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
 export default {
-  components: {
-    LeaguePicker,
+  props: {
+    league: {
+      type: String,
+      default() {
+        return ''
+      },
+    },
   },
   data: () => ({
     valid: true,
     lpGains: ['1-10', '10-14', '15-17', '18-24+'],
-    player: { desiredLeague: '', desiredDivision: '' },
+    eloboosts: [
+      {
+        text: 'Eloboost normal',
+        value: 'false',
+      },
+      { text: 'Duoboost', value: 'true' },
+    ],
+    maxLp: 100,
+    player: {
+      service: '',
+      eloboost: '',
+    },
   }),
+  computed: {
+    services() {
+      if (this.league == 'Unranked' || this.league == 'Challenger') {
+        return ['Victorias']
+      } else {
+        return ['Divisiones', 'Victorias']
+      }
+    },
+  },
   methods: {
-    pickLeague(league) {
-      this.player.desiredLeague = league
-    },
-    pickDivision(division) {
-      this.player.desiredDivision = division
-    },
     passForm() {
       this.$refs.form.validate()
       if (this.valid) {
+        if (this.player.eloboost == 'true') {
+          this.player.eloboost = true
+        } else {
+          this.player.eloboost = false
+        }
         this.$emit('clicked', this.player)
       }
     },
   },
 }
 </script>
+
+<style></style>

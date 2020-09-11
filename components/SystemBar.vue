@@ -1,34 +1,34 @@
 <template>
-  <v-system-bar app window absolute color="rgba(0, 0, 0,0.2)">
-    <v-lazy v-model="bar" transition="slide-x-transition">
-      <v-row no-gutters class="mx-4" align="center">
-        <a
-          href="https://www.instagram.com/elo_academy/"
-          style="text-decoration: none;"
-          target="_blank"
-          ><v-icon class="mx-1"> mdi-instagram </v-icon>
-        </a>
-        <a
-          href="https://www.facebook.com/EloAcademyLAS/"
-          style="text-decoration: none;"
-          target="_blank"
-          ><v-icon class="mx-1"> mdi-facebook </v-icon>
-        </a>
-        <a
-          href="mailto:eloacademy@gmail.com"
-          style="text-decoration: none;"
-          target="_blank"
-          ><v-icon class="mx-1"> mdi-email </v-icon>
-        </a>
-        <a
-          href="https://wa.me/5493416291344"
-          style="text-decoration: none;"
-          target="_blank"
-          ><v-icon class="mx-1"> mdi-whatsapp </v-icon>
-        </a>
-      </v-row>
-    </v-lazy>
-  </v-system-bar>
+  <v-lazy v-model="bar">
+    <v-system-bar app window absolute lights-out>
+      <v-spacer></v-spacer>
+      <a
+        href="https://www.instagram.com/eloboost_academy/"
+        style="text-decoration: none"
+        target="_blank"
+        ><v-icon> mdi-instagram </v-icon>
+      </a>
+      <a
+        href="https://www.facebook.com/EloAcademyLAS/"
+        style="text-decoration: none"
+        target="_blank"
+        ><v-icon> mdi-facebook </v-icon>
+      </a>
+      <a
+        href="https://discord.gg/cvNcX36"
+        style="text-decoration: none"
+        target="_blank"
+        ><v-icon> mdi-discord </v-icon>
+      </a>
+      <a
+        href="https://wa.me/5493416291344"
+        style="text-decoration: none"
+        target="_blank"
+        ><v-icon> mdi-whatsapp </v-icon>
+      </a>
+      <v-spacer></v-spacer>
+    </v-system-bar>
+  </v-lazy>
 </template>
 
 <script>

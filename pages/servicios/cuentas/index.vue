@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <v-content>
-      <v-container>
-        <v-sheet elevation="20">
-          <AccountCards :accounts="accounts" />
-        </v-sheet>
-      </v-container>
-    </v-content>
-  </div>
+  <v-content>
+    <v-container fluid>
+      <AccountCards :accounts="accounts" />
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -23,13 +19,13 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get('/accounts').then((res) => {
+    this.$axios.get('/accountsverified').then((res) => {
       this.accounts = res.data
     })
   },
   head() {
     return {
-      title: 'Venta de cuentas',
+      title: 'Cuentas',
     }
   },
 }

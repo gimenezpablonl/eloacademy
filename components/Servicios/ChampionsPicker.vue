@@ -1,64 +1,45 @@
 <template>
-  <v-row align="center" no-gutters>
-    <v-col class="d-flex" cols="auto">
-      <v-autocomplete
-        v-model="e11"
-        color="accent3"
-        item-color="opposite"
-        :items="champions"
-        :rules="rules"
-        clearable
-        multiple
-        counter="8"
-        label="Campeones"
-        item-text="name"
-        item-value="name"
-        autocomplete
-        return-object
-        solo
-        @change="onChange($event)"
-      >
-        <template v-slot:selection="data">
-          <v-avatar>
-            <v-img
-              max-height="30"
-              max-width="30"
-              :src="require(`@/assets/champions/${data.item.image}`)"
-            />
-          </v-avatar>
-          {{ data.item.name }}
-        </template>
-        <template v-slot:item="data">
-          <template>
-            <v-avatar>
-              <v-img
-                :src="require(`@/assets/champions/${data.item.image}`)"
-                max-height="40"
-                max-width="40"
-              />
-            </v-avatar>
-            {{ data.item.name }}
-          </template>
-        </template>
-      </v-autocomplete>
-    </v-col>
-  </v-row>
+  <v-autocomplete
+    color="accent3"
+    item-color="opposite"
+    :items="champions"
+    clearable
+    multiple
+    label="Campeones"
+    item-text="name"
+    item-value="name"
+    autocomplete
+    return-object
+    @change="onChange($event)"
+  >
+    <template v-slot:selection="data">
+      <v-avatar>
+        <v-img max-height="30" max-width="30" :src="data.item.icon" />
+      </v-avatar>
+      {{ data.item.name }}
+    </template>
+    <template v-slot:item="data">
+      <template>
+        <v-avatar>
+          <v-img :src="data.item.icon" max-height="30" max-width="30" />
+        </v-avatar>
+        {{ data.item.name }}
+      </template>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script>
 import champions from '@/utils/champions'
 export default {
   props: {
-    rules: {
-      type: Array,
-      default() {
-        return []
-      },
+    required: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
-      e11: '',
       champions: Object.values(champions),
       pickedChampions: [],
     }

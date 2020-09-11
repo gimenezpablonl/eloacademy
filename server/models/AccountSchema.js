@@ -14,14 +14,6 @@ const Account = new Schema({
     type: String,
     required: true,
   },
-  summoner_name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
   server: {
     type: String,
     required: true,
@@ -43,29 +35,18 @@ const Account = new Schema({
     default: 0,
   },
   champions: [Number],
-  skins: [
-    {
-      _id: false,
-      champion: {
-        type: Number,
-        required: true,
-      },
-      key: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
-  icons: [Number],
+  skins: [String],
+  icons: {
+    type: Number,
+    default: 0,
+  },
   previous_rank: {
     league: {
       type: String,
       required: true,
     },
     division: {
-      type: Number,
-      min: 1,
-      max: 4,
+      type: String,
     },
   },
   solo_rank: {
@@ -74,9 +55,7 @@ const Account = new Schema({
       required: true,
     },
     division: {
-      type: Number,
-      min: 1,
-      max: 4,
+      type: String,
     },
   },
   flex_rank: {
@@ -85,9 +64,7 @@ const Account = new Schema({
       required: true,
     },
     division: {
-      type: Number,
-      min: 1,
-      max: 4,
+      type: String,
     },
   },
   tft_rank: {
@@ -96,14 +73,12 @@ const Account = new Schema({
       required: true,
     },
     division: {
-      type: Number,
-      min: 1,
-      max: 4,
+      type: String,
     },
   },
   status: {
-    type: Boolean,
-    default: false,
+    type: Number,
+    default: 0,
   },
   price: {
     type: Number,
