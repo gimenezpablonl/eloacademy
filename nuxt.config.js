@@ -62,7 +62,15 @@ module.exports = {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    '@nuxtjs/proxy',
   ],
+  proxy: {
+    '/api': {
+      target: 'http://example.com',
+      pathRewrite: {
+        '^/api' : '/'
+        }
+      },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
