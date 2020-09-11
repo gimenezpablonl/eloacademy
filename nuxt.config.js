@@ -70,7 +70,8 @@ module.exports = {
       pathRewrite: {
         '^/api' : '/'
         }
-      },
+      }
+    },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
