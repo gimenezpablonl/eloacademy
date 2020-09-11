@@ -66,7 +66,7 @@ module.exports = {
   ],
   proxy: {
     '/api': {
-      target: 'http://example.com',
+      target: 'https://lucid-northcutt-6441d8.netlify.app',
       pathRewrite: {
         '^/api' : '/'
         }
