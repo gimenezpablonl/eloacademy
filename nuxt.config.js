@@ -79,7 +79,7 @@ module.exports = {
   axios: {
     baseURL: development
       ? 'http://localhost:8000/api'
-      : 'https://eloacademy.herokuapp.com/api',
+      : 'https://lucid-northcutt-6441d8.netlify.app/api',
   },
   /*
    ** vuetify module configuration
