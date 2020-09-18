@@ -1,10 +1,12 @@
 <template>
   <v-autocomplete
-    v-model="usrLocal"
+    v-model="userLocal"
     color="accent3"
+    outlined
     item-color="opposite"
     :items="users"
-    label="Usuario"
+    :label="label"
+    prepend-inner-icon="mdi-account-reactivate"
     item-text="username"
     item-value="_id"
     max-height="auto"
@@ -26,9 +28,17 @@
 <script>
 export default {
   props: {
-    usr: {
+    user: {
       type: String,
-      default: '',
+      default() {
+        return ''
+      },
+    },
+    label: {
+      type: String,
+      default() {
+        return 'Usuario'
+      },
     },
   },
   data() {
@@ -37,12 +47,12 @@ export default {
     }
   },
   computed: {
-    usrLocal: {
+    userLocal: {
       get() {
-        return this.usr
+        return this.user
       },
       set(value) {
-        this.$emit('usrchange', true)
+        this.$emit('userChanged', value)
       },
     },
   },

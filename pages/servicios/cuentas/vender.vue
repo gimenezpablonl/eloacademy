@@ -75,10 +75,10 @@
             <v-spacer></v-spacer>
             <v-col cols="5" md="5" sm="10">
               <v-card-text>
-                <SkinPicker
+                <!--                 <SkinPicker
                   :champions="account.champions"
                   @changed="pickSkins"
-                />
+                /> -->
               </v-card-text>
             </v-col>
             <v-col cols="5" md="5" sm="10">
@@ -150,15 +150,15 @@
 </template>
 
 <script>
-import ChampionsPicker from '@/components/Servicios/ChampionsPicker.vue'
-import ServerPicker from '@/components/Servicios/ServerPicker.vue'
-import SkinPicker from '@/components/Servicios/SkinPicker.vue'
-import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
+import ChampionsPicker from '@/components/Forms/ChampionsPicker.vue'
+import ServerPicker from '@/components/Forms/ServerPicker.vue'
+/* import SkinPicker from '@/components/Forms/SkinPicker.vue' */
+import LeaguePicker from '@/components/Forms/LeaguePicker.vue'
 export default {
   components: {
     ServerPicker,
     ChampionsPicker,
-    SkinPicker,
+    /*     SkinPicker, */
     LeaguePicker,
   },
   data() {

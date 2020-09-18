@@ -1,43 +1,24 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <v-row align="center" justify="space-between" no-gutters>
-      <v-col class="d-flex" cols="5" md="5" sm="10">
-        <ServerPicker @defchange="pickServer" />
-      </v-col>
-      <v-col class="d-flex" cols="5" md="5" sm="10">
-        <QueuePicker @defchange="pickQueue" />
-      </v-col>
-    </v-row>
-    <LeaguePicker @changed="pickLeague" @pickedDivision="pickDivision" />
     <v-row>
-      <v-col
-        v-if="player.rank.league !== 'Unranked'"
-        class="d-flex"
-        cols="5"
-        md="5"
-        sm="10"
-      >
-        <v-text-field
-          v-model="player.lp"
-          :rules="[(v) => !!v || 'Necesario', (v) => v <= maxLp || 'Inválido']"
-          type="number"
-          color="opposite"
-          label="Puntos de liga actuales"
-        ></v-text-field>
+      <v-col cols="6">
+        <ServerPicker @serverChanged="pickServer" />
+      </v-col>
+      <v-col cols="6">
+        <QueuePicker @queueChanged="pickQueue" />
+      </v-col>
+      <v-col cols="6">
+        <LeaguePicker required @rankChanged="pickRank" />
+      </v-col>
+      <v-col v-if="player.rank.league != 'Unranked'" cols="6">
+        <LpPicker
+          :league="player.rank.league"
+          label="Puntos de liga"
+          required
+          @lpChanged="pickLp"
+        />
       </v-col>
       <v-spacer></v-spacer>
-      <v-col class="d-flex" cols="5" md="5" sm="10">
-        <v-select
-          v-if="player.rank.league !== 'Unranked' && player.rank.league"
-          v-model="player.lpGain"
-          :rules="[(v) => !!v || 'Necesario']"
-          required
-          color="opposite"
-          item-color="accent3"
-          :items="lpGains"
-          label="Puntos de liga por victoria"
-        ></v-select>
-      </v-col>
     </v-row>
     <v-row align="center" justify="end">
       <v-col cols="auto" align-self="end">
@@ -51,14 +32,16 @@
 </template>
 
 <script>
-import ServerPicker from '@/components/Servicios/ServerPicker.vue'
-import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
-import QueuePicker from '@/components/Servicios/QueuePicker.vue'
+import ServerPicker from '@/components/Forms/ServerPicker.vue'
+import LeaguePicker from '@/components/Forms/LeaguePicker.vue'
+import QueuePicker from '@/components/Forms/QueuePicker.vue'
+import LpPicker from '@/components/Forms/LpPicker.vue'
 export default {
   components: {
     ServerPicker,
     LeaguePicker,
     QueuePicker,
+    LpPicker,
   },
   data: () => ({
     valid: true,
@@ -72,19 +55,17 @@ export default {
         division: '',
       },
       lp: 0,
-      lpGain: 0,
     },
   }),
   methods: {
-    pickLeague(league) {
-      this.player.rank.league = league
-      this.maximazeLp()
-    },
-    pickDivision(division) {
-      this.player.rank.division = division
+    pickRank(rank) {
+      this.player.rank = rank
     },
     pickServer(server) {
       this.player.server = server
+    },
+    pickLp(lp) {
+      this.player.lp = lp
     },
     pickQueue(queue) {
       if (queue == 'true') {

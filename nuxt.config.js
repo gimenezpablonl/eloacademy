@@ -1,9 +1,10 @@
 const development = process.env.NODE_ENV !== 'production'
-
+const host = 'https://[::1]:8000'
 module.exports = {
+  telemetry: false,
   server: {
-    port: process.env.PORT ? process.env.PORT : 8000, // default: 3000 SI NO FUNCIONA ES ESTO
-    host: process.env.PORT ? '0.0.0.0' : 'localhost', // default: localhost SI NO FUNCIONA ES ESTO
+    port: process.env.PORT ? process.env.PORT : 3000, // default: 3000 SI NO FUNCIONA ES ESTO
+    host: '[::1]', // default: localhost SI NO FUNCIONA ES ESTO
   },
   /*
    ** Headers of the page
@@ -41,7 +42,10 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/localStorage.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/localStorage.js', ssr: false },
+    { src: '~/plugins/vuescroll.js', ssr: false },
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -66,20 +70,20 @@ module.exports = {
   ],
   proxy: {
     '/api': {
-      target: 'https://lucid-northcutt-6441d8.netlify.app',
+      target: host,
+      secure: false,
+      changeOrigin: false,
       pathRewrite: {
-        '^/api' : '/'
-        }
-      }
+        '^/api': '/api',
+      },
     },
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: development
-      ? 'http://localhost:8000/api'
-      : 'https://lucid-northcutt-6441d8.netlify.app/api',
+    baseURL: '/api',
   },
   /*
    ** vuetify module configuration
@@ -88,43 +92,7 @@ module.exports = {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     treeShake: true,
-    theme: {
-      themes: {
-        light: {
-          primary: '#e2dfce',
-          secondary: '#b0bec5',
-          accent: '#fdfa77',
-          accent2: '#229fe1',
-          accent3: '#c37e09',
-          instagram: '#C13584',
-          discord: '#7289da',
-          facebook: '#3b5998',
-          twitter: '#0084b4',
-          whatsapp: '#128C7E',
-          error: '#b71c1c',
-          opposite: '#44465b',
-          light: '#e2dfce',
-          dark: '#44465b',
-        },
-        dark: {
-          primary: '#44465b',
-          secondary: '#b0bec5',
-          accent: '#fdfa77',
-          accent2: '#229fe1',
-          accent3: '#c37e09',
-          instagram: '#C13584',
-          discord: '#7289da',
-          facebook: '#3b5998',
-          twitter: '#0084b4',
-          whatsapp: '#128C7E',
-          error: '#b71c1c',
-          opposite: '#e2dfce',
-          light: '#e2dfce',
-          dark: '#44465b',
-        },
-      },
-      light: true,
-    },
+    optionsPath: './vuetify.options.js',
   },
   build: {
     /*

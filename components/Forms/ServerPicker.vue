@@ -1,30 +1,20 @@
 <template>
   <v-select
-    v-model="defLocal"
+    v-model="serverLocal"
     color="accent3"
+    outlined
     item-color="opposite"
+    prepend-inner-icon="mdi-earth"
     :items="servers"
     :rules="[(v) => !!v || 'Necesario']"
     required
     label="Servidor"
   >
     <template v-slot:selection="data">
-      <v-avatar>
-        <v-img
-          max-width="40"
-          :src="require(`@/assets/servers/${data.item}.png`)"
-        />
-      </v-avatar>
       {{ data.item }}
     </template>
     <template v-slot:item="data">
       <template>
-        <v-img
-          :src="require(`@/assets/servers/${data.item}.png`)"
-          max-height="50"
-          max-width="50"
-          class="mr-5"
-        />
         {{ data.item }}
       </template>
     </template>
@@ -34,13 +24,15 @@
 <script>
 export default {
   model: {
-    prop: 'def',
-    event: 'defchange',
+    prop: 'server',
+    event: 'serverChanged',
   },
   props: {
-    def: {
+    server: {
       type: String,
-      default: '',
+      default() {
+        return ''
+      },
     },
   },
   data() {
@@ -49,12 +41,12 @@ export default {
     }
   },
   computed: {
-    defLocal: {
+    serverLocal: {
       get() {
-        return this.def
+        return this.server
       },
       set(value) {
-        this.$emit('defchange', value)
+        this.$emit('serverChanged', value)
       },
     },
   },

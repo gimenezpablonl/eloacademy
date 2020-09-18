@@ -60,3 +60,17 @@ export default {
   },
 }
 </script>
+<style>
+body {
+  overflow: hidden;
+
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  width: 0 !important;
+}
+body {
+  overflow: -moz-scrollbars-none;
+}
+</style>

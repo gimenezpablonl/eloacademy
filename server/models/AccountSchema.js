@@ -35,7 +35,7 @@ const Account = new Schema({
     default: 0,
   },
   champions: [Number],
-  skins: [String],
+  skins: [Number],
   icons: {
     type: Number,
     default: 0,
@@ -79,6 +79,10 @@ const Account = new Schema({
   status: {
     type: Number,
     default: 0,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
   price: {
     type: Number,

@@ -1,118 +1,89 @@
 <template>
-  <div>
-    <v-lazy
-      v-model="parallaxLazy"
-      :options="{
-        threshold: 1,
-      }"
-      transition="slide-x-transition"
-    >
-      <ParallaxSeparator
-        src="Sylas.jpg"
-        text="Nuestras prioridades"
-      ></ParallaxSeparator>
-    </v-lazy>
-    <v-container>
-      <v-row no-gutters>
-        <v-col
-          v-for="(prioridad, idx) in prioridades"
-          :key="idx"
-          cols="12"
-          sm="3"
-        >
-          <template>
-            <v-lazy
-              v-model="isActive"
-              :options="{
-                threshold: 1,
-              }"
-              transition="fade-transition"
-            >
-              <v-card color="transparent" flat class="mx-auto my-5">
+  <v-row align="center">
+    <v-col cols="12" class="text-center">
+      <h1 class="opposite--text display-2 font-weight-light">
+        ¿Por qué <b>Eloboost Academy</b>?
+      </h1>
+    </v-col>
+    <v-col>
+      <v-row align="center" justify="begin">
+        <v-col class="my-8" cols="12" md="10" lg="10" xl="10">
+          <v-card>
+            <v-row align="center" justify="center" class="mr-0">
+              <v-col cols="12" md="7">
+                <v-card-title class="accent3--text display-1 font-weight-light"
+                  ><b>Experiencia en el negocio</b></v-card-title
+                >
+                <v-card-text class="subtitle-1 font-weight-light text-justify"
+                  >Eloboost Academy es el servicio en el que confían los
+                  jugadores. Nuestro equipo está formado por
+                  <span class="accent3--text font-weight-medium"
+                    >miembros calificados de la administración, boosters
+                    veteranos y ex jugadores profesionales.</span
+                  >
+                  Llevamos más de 5 años ofreciéndole a los jugadores de League
+                  of Legends nuestros servicios de coaching y eloboosting, y es
+                  por eso que gracias a su confianza podemos seguir
+                  ofreciendoles más y mejores servicios para ustedes.
+                </v-card-text>
+              </v-col>
+              <v-col cols="12" md="5">
                 <v-img
-                  width="150"
-                  class="mx-auto"
-                  :src="require(`@/assets/priorities/${prioridad.img}`)"
+                  src="/isotype.svg"
+                  alt="Eloboost Academy - Sube ELO"
+                  max-height="300"
+                  contain
                 >
                 </v-img>
-
-                <v-card-subtitle
-                  class="pb-1 title opposite--text text-center font-weight-bold"
-                >
-                  {{ prioridad.nombre }}
-                </v-card-subtitle>
-
-                <v-card-text class="text-center opposite--text">
-                  {{ prioridad.descripcion }}
-                </v-card-text>
-              </v-card>
-            </v-lazy>
-          </template>
+              </v-col>
+            </v-row>
+          </v-card>
         </v-col>
       </v-row>
-    </v-container>
-  </div>
+      <v-row align="center" justify="end">
+        <v-col class="my-8" cols="12" md="10" lg="10" xl="10">
+          <v-card>
+            <v-row align="center" justify="center" class="ml-0 mr-10">
+              <v-col cols="12" md="5">
+                <v-img
+                  src="/img/professionaleloboost.png"
+                  alt="Eloboost Academy Professional Eloboost"
+                  max-height="350"
+                  contain
+                >
+                </v-img>
+              </v-col>
+              <v-col cols="12" md="7">
+                <v-card-title class="accent3--text display-1 font-weight-light"
+                  ><b>Equipo profesional de eloboost</b></v-card-title
+                >
+                <v-card-text class="subtitle-1 font-weight-light text-justify">
+                  Los miembros de Eloboost Academy
+                  <span class="accent3--text font-weight-medium"
+                    >son dedicados y darán el 100% de sus habilidades y
+                    conocimientos para poder ganar todas las partidas ranked
+                  </span>
+                  mientras realizan eloboost a tu cuenta. Nosotros tratamos de
+                  alcanzar la tasa de victorias más alta, lo cual beneficia
+                  tanto al cliente como al booster.
+                  <span class="accent3--text font-weight-medium"
+                    >Nuestros eloboosters profesionales están estrictamente
+                    instruidos para evitar cualquier confrontación con los
+                    compañeros de equipo.</span
+                  >Tampoco charlarán con nadie de la lista de amigos sin
+                  aprobación del cliente.
+                </v-card-text>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import ParallaxSeparator from '@/components/ParallaxSeparator.vue'
-export default {
-  components: {
-    ParallaxSeparator,
-  },
-  data: () => ({
-    isActive: false,
-    parallaxLazy: false,
-    prioridades: [
-      {
-        nombre: 'Tiempo garantizado',
-        descripcion:
-          'Tu orden tendrá un tiempo de entrega máximo. Si el Booster falla en terminarlo a tiempo, se te regalaran wins en todas las divisiones inferiores a D2.',
-        img: '1.png',
-      },
-      {
-        nombre: 'Soporte 24/7',
-        descripcion:
-          'Chat en vivo las 24 horas con el soporte y el booster en multiples idiomas. Siempre vamos a estar ahí para ayudarte y responder todas tus dudas.',
-        img: '2.png',
-      },
-      {
-        nombre: 'Confidencialidad',
-        descripcion:
-          'Todos los datos personales que nos proporciones son super confidenciales. Solo el booster tendrá acceso a ellos. A su vez todas las transacciones estan encriptadas para una máxima seguridad.',
-        img: '3.png',
-      },
-      {
-        nombre: 'Seguimiento',
-        descripcion:
-          'Contamos con una plataforma a la que podras ingresar una vez realizada la compra, donde podras chatear con tu booster, pausar la orden si quieres jugar y ver el progreso de tu orden.',
-        img: '4.png',
-      },
-      {
-        nombre: 'Máxima Calidad',
-        descripcion:
-          'Tenemos el servicio con mayor calidad de eloboost del mercado. Para lograr esto nos enfocamos en ti, en que toda tu experiencia sea agradable, segura y confiable.',
-        img: '5.png',
-      },
-      {
-        nombre: 'Rapidez',
-        descripcion:
-          'Somos muy exigentes con la rapidez del servicio por eso una vez realizada la compra en booster se contactara contigo a la brevedad para empezar el trabajo.',
-        img: '6.png',
-      },
-      {
-        nombre: 'Económico',
-        descripcion:
-          'Hicimos mucho enfasis en industrializar el proceso de eloboost, combinando esto con sucesivos descuentos nos permite tener los precios mas bajos del mercado.',
-        img: '7.png',
-      },
-      {
-        nombre: 'Personalizado',
-        descripcion:
-          'Puedes personalizar tu orden al máximo, elegir los campeones y roles que quieras, elegir el booster y hasta en que letra quieres el destello.',
-        img: '8.png',
-      },
-    ],
-  }),
-}
+export default {}
 </script>
+
+<style></style>

@@ -1,25 +1,29 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <v-row align="center" justify="space-between" no-gutters>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
+    <v-row>
+      <v-col cols="6">
         <v-select
           v-model="player.service"
           :rules="[(v) => !!v || 'Necesario']"
           required
-          color="opposite"
+          color="accent3"
+          outlined
           item-color="accent3"
           :items="services"
+          prepend-inner-icon="mdi-snake"
           label="Tipo de Servicio"
         ></v-select>
       </v-col>
-      <v-col class="d-flex" cols="6" md="5" sm="10">
+      <v-col cols="6">
         <v-select
           v-model="player.eloboost"
           :rules="[(v) => !!v || 'Necesario']"
           required
-          color="opposite"
+          color="accent3"
+          outlined
           item-color="accent3"
           :items="eloboosts"
+          prepend-inner-icon="mdi-shape"
           item-text="text"
           item-value="value"
           label="Tipo de eloboost"
@@ -55,7 +59,6 @@ export default {
   },
   data: () => ({
     valid: true,
-    lpGains: ['1-10', '10-14', '15-17', '18-24+'],
     eloboosts: [
       {
         text: 'Eloboost normal',
@@ -63,7 +66,6 @@ export default {
       },
       { text: 'Duoboost', value: 'true' },
     ],
-    maxLp: 100,
     player: {
       service: '',
       eloboost: '',

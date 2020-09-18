@@ -1,16 +1,17 @@
 <template>
   <v-autocomplete
+    v-model="championsLocal"
     color="accent3"
+    outlined
     item-color="opposite"
-    :items="champions"
+    :items="listOfChampions"
     clearable
     multiple
+    prepend-inner-icon="mdi-fencing"
     label="Campeones"
     item-text="name"
-    item-value="name"
+    item-value="key"
     autocomplete
-    return-object
-    @change="onChange($event)"
   >
     <template v-slot:selection="data">
       <v-avatar>
@@ -30,27 +31,37 @@
 </template>
 
 <script>
-import champions from '@/utils/champions'
+import listOfChampions from '@/utils/champions'
 export default {
+  model: {
+    prop: 'champions',
+    event: 'championsChanged',
+  },
   props: {
     required: {
       type: Boolean,
       default: false,
     },
+    champions: {
+      type: Array,
+      default() {
+        return []
+      },
+    },
   },
   data() {
     return {
-      champions: Object.values(champions),
-      pickedChampions: [],
+      listOfChampions: Object.values(listOfChampions),
     }
   },
-  methods: {
-    onChange(events) {
-      this.pickedChampions = []
-      for (let i = 0; i < events.length; i++) {
-        this.pickedChampions.push(events[i].key)
-      }
-      this.$emit('changed', this.pickedChampions)
+  computed: {
+    championsLocal: {
+      get() {
+        return this.champions
+      },
+      set(value) {
+        this.$emit('championsChanged', value)
+      },
     },
   },
 }

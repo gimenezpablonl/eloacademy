@@ -25,6 +25,7 @@
                   <v-text-field
                     v-model="newuser.email"
                     :rules="emailRules"
+                    autofocus
                     label="E-mail"
                     required
                     outlined

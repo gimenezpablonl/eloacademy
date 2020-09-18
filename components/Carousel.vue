@@ -1,11 +1,11 @@
 <template>
-  <swiper class="swiper" :options="swiperOption">
+  <swiper class="swiper mt-10" :options="swiperOption">
     <swiper-slide v-for="(testimonio, idx) in testimonios" :key="idx">
-      <v-card color="primary" flat min-height="400" class="mx-auto my-5 mb-10">
+      <v-card color="transparent" flat min-height="400" class="mx-auto">
         <v-card-title>
           <v-row justify="space-between" no-gutters>
             <v-col
-              ><span class="text-uppercase opposite--text font-weight-bold"
+              ><span class="text-uppercase accent3--text font-weight-bold"
                 >{{ testimonio.type }}
               </span></v-col
             >
@@ -13,7 +13,7 @@
               ><v-rating
                 color="accent3"
                 readonly
-                background-color="secondary"
+                background-color="accent3"
                 hover
                 dense
                 :value="testimonio.valor"
@@ -21,19 +21,24 @@
             ></v-col>
           </v-row>
         </v-card-title>
-        <v-img
-          width="100"
-          class="mx-auto"
-          :src="require(`@/assets/${testimonio.img}`)"
-        >
-        </v-img>
+        <v-row align="center" justify="center">
+          <v-col cols="3">
+            <v-img :src="require(`@/assets/${testimonio.start}`)"> </v-img>
+          </v-col>
+          <v-col v-if="testimonio.end" cols="1">
+            <v-icon x-large> mdi-arrow-right </v-icon>
+          </v-col>
+          <v-col v-if="testimonio.end" cols="3">
+            <v-img :src="require(`@/assets/${testimonio.end}`)"> </v-img>
+          </v-col>
+        </v-row>
         <v-card-title class="text-uppercase opposite--text title">{{
           testimonio.server
         }}</v-card-title>
-        <v-card-subtitle class="opposite--text subtitle">
+        <v-card-subtitle class="subtitle-2">
           {{ testimonio.date }}
         </v-card-subtitle>
-        <v-card-subtitle class="opposite--text body-2">
+        <v-card-subtitle class="body-2 text-justify">
           {{ testimonio.text }}
         </v-card-subtitle>
       </v-card>
@@ -56,67 +61,72 @@ export default {
   data: () => ({
     testimonios: [
       {
-        img: 'leagues/Platinum.png',
-        type: 'duoboost',
+        start: 'leagues/Platinum.png',
+        end: 'leagues/Diamond.png',
+        type: 'eloboost',
         server: 'LAS',
-        date: '18/05/2020',
+        date: '18/09/2020',
         text:
           'MUY CHETO TODO LA VERDAD LOS BOOSTERS SE RE PORTARON UN SHOUTOUT PARA ELO ACADEMY WACHO',
         valor: 5,
       },
       {
-        img: 'leagues/Gold.png',
+        start: 'leagues/Silver.png',
+        end: 'leagues/Gold.png',
         type: 'eloboost',
         server: 'BR',
-        date: '18/05/2020',
+        date: '18/09/2020',
         text: 'muy weno',
         valor: 4,
       },
       {
-        img: 'leagues/Challenger.png',
+        start: 'leagues/Master.png',
+        end: 'leagues/Grandmaster.png',
         type: 'eloboost',
         server: 'LAS',
-        date: '18/05/2020',
+        date: '18/09/2020',
         text: 'recomendable',
         valor: 5,
       },
       {
-        img: 'leagues/Diamond.png',
+        start: 'leagues/Silver.png',
         type: 'coaching',
-        server: 'br',
-        date: '18/05/2020',
+        server: 'BR',
+        date: '18/09/2020',
         text: 'muy weno',
         valor: 5,
       },
       {
-        img: 'leagues/Silver.png',
+        start: 'leagues/Bronze.png',
+        end: 'leagues/Gold.png',
         type: 'eloboost',
-        server: 'lan',
-        date: '18/05/2020',
+        server: 'LAN',
+        date: '18/09/2020',
         text: 'muy weno',
         valor: 4,
       },
       {
-        img: 'leagues/Diamond.png',
+        start: 'leagues/Iron.png',
+        end: 'leagues/Bronze.png',
         type: 'eloboost',
         server: 'LAS',
-        date: '18/05/2020',
+        date: '18/09/2020',
         text: 'recomendable',
         valor: 5,
       },
       {
-        img: 'leagues/Diamond.png',
+        start: 'leagues/Platinum.png',
         type: 'coaching',
-        server: 'na',
-        date: '18/05/2020',
+        server: 'NA',
+        date: '18/09/2020',
         text: 'chetardo',
         valor: 5,
       },
       {
-        img: 'leagues/Diamond.png',
+        start: 'leagues/Diamond.png',
         type: 'coaching',
-        server: 'na',
-        date: '18/05/2020',
+        server: 'NA',
+        date: '18/09/2020',
         text: 'chetardo',
         valor: 5,
       },

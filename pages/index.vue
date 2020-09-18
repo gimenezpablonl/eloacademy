@@ -1,25 +1,38 @@
 <template>
   <div class="home">
-    <Presentation />
-    <Prioridades />
-    <v-img max-height="500" src="img/parallax.gif">
-      <v-container>
-        <v-row
-          no-gutters
-          justify="center"
-          align-content="center"
-          align="center"
-          style="height: 450px"
-        >
-          <v-col class="text-center" align-self="center" cols="12">
-            <h1 class="white--text font-weight-bold display-3">
-              JUEGA COMO UN PROFESIONAL
-            </h1>
-          </v-col>
-        </v-row>
-      </v-container></v-img
+    <Presentation class="mb-10" />
+    <v-lazy
+      :options="{
+        threshold: 1,
+      }"
+      transition="scale-transition"
     >
-    <Testimonios />
+      <Ventajas class="mb-10" />
+    </v-lazy>
+    <v-lazy
+      :options="{
+        threshold: 1,
+      }"
+      transition="scale-transition"
+    >
+      <Prioridades class="mb-10" />
+    </v-lazy>
+    <v-lazy
+      :options="{
+        threshold: 1,
+      }"
+      transition="scale-transition"
+    >
+      <Parallax class="mb-10" />
+    </v-lazy>
+    <v-lazy
+      :options="{
+        threshold: 1,
+      }"
+      transition="scale-transition"
+    >
+      <Testimonios />
+    </v-lazy>
   </div>
 </template>
 
@@ -28,13 +41,18 @@
 import Presentation from '@/components/Inicio/Presentation.vue'
 import Prioridades from '@/components/Inicio/Prioridades.vue'
 import Testimonios from '@/components/Inicio/Testimonios.vue'
+import Ventajas from '@/components/Inicio/Ventajas.vue'
+import Parallax from '@/components/Inicio/Parallax.vue'
 export default {
   components: {
     Presentation,
     Prioridades,
     Testimonios,
+    Ventajas,
+    Parallax,
   },
   data: () => ({
+    parallaxLazy: false,
     fab: false,
   }),
   head() {

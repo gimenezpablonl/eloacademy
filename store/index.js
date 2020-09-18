@@ -7,10 +7,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  update(state, { token, user }) {
-    state.token = token
-    state.user = user
-  },
   auth_request(state) {
     state.status = 'loading'
   },

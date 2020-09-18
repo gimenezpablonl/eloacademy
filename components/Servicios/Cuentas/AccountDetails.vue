@@ -116,12 +116,7 @@
         </v-row>
         <v-row class="mx-3">
           <v-col cols="auto">
-            <ChampionDialog
-              v-if="
-                account.champions != undefined && account.champions.length > 0
-              "
-              :champs="account.champions"
-            />
+            <!-- // CHAMPIONSCARD -->
           </v-col>
         </v-row>
         <v-row class="mx-3">
@@ -137,10 +132,7 @@
         </v-row>
         <v-row class="mx-3">
           <v-col cols="auto">
-            <SkinDialog
-              v-if="account.skins != undefined && account.skins.length > 0"
-              :skins="account.skins"
-            />
+            <!-- skindialog -->
           </v-col>
         </v-row>
         <v-row class="mx-3">
@@ -195,14 +187,8 @@
 </template>
 
 <script>
-import ChampionDialog from '@/components/Admin/ChampionDialog'
-import SkinDialog from '@/components/Admin/SkinDialog'
 import champions from '@/utils/champions'
 export default {
-  components: {
-    ChampionDialog,
-    SkinDialog,
-  },
   props: {
     account: {
       type: Object,

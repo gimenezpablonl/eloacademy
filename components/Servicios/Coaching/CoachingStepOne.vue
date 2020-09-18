@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
+import LeaguePicker from '@/components/Forms/LeaguePicker.vue'
 export default {
   components: {
     LeaguePicker,

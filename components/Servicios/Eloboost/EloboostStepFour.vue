@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import ChampionsPicker from '@/components/Servicios/ChampionsPicker.vue'
-import RolePicker from '@/components/Servicios/RolePicker'
+import ChampionsPicker from '@/components/Forms/ChampionsPicker.vue'
+import RolePicker from '@/components/Forms/RolePicker'
 export default {
   components: {
     ChampionsPicker,

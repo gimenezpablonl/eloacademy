@@ -8,6 +8,7 @@ const Coaching = new Schema({
   },
   coach: {
     type: Schema.ObjectId,
+    required: true,
     ref: 'Users',
   },
   contact: {
@@ -32,6 +33,7 @@ const Coaching = new Schema({
   },
   createdAt: {
     type: Date,
+    default: Date.now,
   },
 })
 

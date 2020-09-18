@@ -10,12 +10,16 @@ const User = new Schema({
   },
   email: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
+    select: false,
     required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
   role: {
     // 0 = usuario, 1 = booster, 2 = admin

@@ -39,4 +39,17 @@ export default {
   },
 }
 </script>
-<style></style>
+<style>
+body {
+  overflow: hidden;
+
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  width: 0 !important;
+}
+body {
+  overflow: -moz-scrollbars-none;
+}
+</style>

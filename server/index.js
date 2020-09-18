@@ -37,12 +37,15 @@ async function start() {
   app.use(passport.session())
   // MONGODB
   mongoose
-    .connect(process.env.MONGODB_URI || 'mongodb://localhost/eloacademy', {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    })
+    .connect(
+      'mongodb+srv://gimenezpablonl:gimenezpablonl@cluster0.xasha.gcp.mongodb.net/eloboostacademy?retryWrites=true&w=majority',
+      {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+      }
+    )
     .then((db) => console.log('> DB is connected'))
     .catch((err) => console.error(err))
   // API
@@ -52,7 +55,7 @@ async function start() {
   // Listen the server
   app.listen(port, host)
   consola.ready({
-    message: `Server listening on http://${host}:${port}`,
+    message: `Server listening on http://${host}:8000`,
     badge: true,
   })
 }

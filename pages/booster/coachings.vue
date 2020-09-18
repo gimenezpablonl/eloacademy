@@ -1,15 +1,18 @@
 <template>
   <v-container fluid>
     <v-data-table
-      single-expand
       item-key="_id"
-      show-expand
-      expand-icon="mdi-arrow-expand-down"
+      :page.sync="page"
+      :items-per-page="itemsPerPage"
       :headers="headers"
       :items="coachings"
       :search="search"
-      sort-by="Usuario"
-      class="elevation-3"
+      show-expand
+      single-expand
+      hide-default-footer
+      sort-by="status"
+      class="elevation-1"
+      @page-count="pageCount = $event"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -22,42 +25,53 @@
             single-line
             hide-details
           ></v-text-field>
+          <v-spacer></v-spacer>
+          <v-text-field
+            :value="itemsPerPage"
+            type="number"
+            min="1"
+            max="100"
+            single-line
+            hide-details
+            @input="itemsPerPage = parseInt($event, 10)"
+          ></v-text-field>
+          <v-spacer></v-spacer>
         </v-toolbar>
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <ChampionDialog
-            v-if="item.champions.length > 0"
-            :champs="item.champions"
-          />
-          <v-chip v-for="rol in item.role" :key="rol" cols="auto">
-            {{ rol }}
-          </v-chip>
+          <v-container fluid>
+            <v-card flat>
+              <RolesList v-if="item.role.length > 0" :roles="item.role" />
+              <ChampionsCard
+                v-if="item.champions.length > 0"
+                :champs="item.champions"
+              />
+            </v-card>
+          </v-container>
         </td>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-tooltip bottom>
+        <v-tooltip v-if="item.cch == 'Sin asignar'" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              v-if="item.cch == 'Sin asignar'"
               v-bind="attrs"
               small
               v-on="on"
-              @click="pickCoaching(item)"
+              @click="alert(item, 'realizar')"
             >
               mdi-hand
             </v-icon>
           </template>
-          <span>Coachear esta cuenta</span>
+          <span>Realizar coaching</span>
         </v-tooltip>
-        <v-tooltip bottom>
+        <v-tooltip v-if="!item.status && item.cch != 'Sin asignar'" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              v-if="item.cch != 'Sin asignar' && !item.status"
               v-bind="attrs"
               small
               v-on="on"
-              @click="endCoaching(item)"
+              @click="alert(item, 'dar como finalizado')"
             >
               mdi-check-bold
             </v-icon>
@@ -69,24 +83,42 @@
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
     </v-data-table>
+    <div class="text-center pt-2">
+      <v-pagination
+        v-model="page"
+        circle
+        color="accent3"
+        :length="pageCount"
+      ></v-pagination>
+    </div>
+    <v-snackbar v-model="alertDialog" color="error" :timeout="0" bottom>
+      <v-icon dark class="mr-3"> mdi-alert </v-icon>
+      Estas a punto de {{ warning }} este coaching
+      <v-btn text @click="alertDialog = false">Cancelar</v-btn>
+      <v-btn @click="alertConfirm">Confirmar</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
-import ChampionDialog from '@/components/Admin/ChampionDialog'
+import ChampionsCard from '@/components/Forms/ChampionsCard'
+import RolesList from '@/components/Forms/RolesList.vue'
 export default {
   layout: 'booster',
   components: {
-    ChampionDialog,
+    ChampionsCard,
+    RolesList,
   },
   data: () => ({
-    url: '/coachs/',
+    page: 1,
+    pageCount: 0,
+    itemsPerPage: 10,
     dialog: false,
+    warning: '',
+    itemId: {},
+    detailsDialog: false,
+    alertDialog: false,
     search: '',
-    options: [
-      { name: 'Finalizado', code: true },
-      { name: 'En proceso', code: false },
-    ],
     headers: [
       { text: 'Ver', value: 'data-table-expand' },
       { text: 'Coach', value: 'cch' },
@@ -96,11 +128,13 @@ export default {
       { text: 'Acciones', value: 'actions', sortable: false },
     ],
     coachings: [],
-    editedIndex: -1,
+    booster: {},
   }),
-
   computed: {
-    booster() {
+    rule() {
+      return [(v) => !!v || 'Necesario']
+    },
+    getBooster() {
       if (this.$store.state.user != undefined) {
         return this.$store.state.user
       } else {
@@ -108,80 +142,86 @@ export default {
       }
     },
   },
-
-  watch: {
-    dialog(val) {
-      val || this.close()
-    },
-  },
-
   created() {
+    this.booster = this.getBooster
     this.initialize()
   },
-
   methods: {
-    async editCoaching(id) {
-      const path = '/coachings/' + id
-      try {
-        delete this.editedItem.createdAt
-        await this.$axios.put(path, this.editedItem)
-      } catch (e) {
-        this.error = e.response.data.message
-      }
+    alert(item, action) {
+      this.warning = action
+      this.itemId = item
+      this.alertDialog = true
     },
-    async addCoaching() {
-      try {
-        await this.$axios.post('/coachings', this.editedItem)
-      } catch (e) {
-        this.error = e.response.data.message
+    alertConfirm() {
+      if (this.warning == 'realizar') {
+        this.pickCoaching(this.itemId)
+      } else if (this.warning == 'dar como finalizado') {
+        this.endCoaching(this.itemId)
       }
+      this.alertDialog = false
     },
-    async deleteCoaching(id) {
-      try {
-        const path = '/coachings/' + id
-        await this.$axios.delete(path)
-      } catch (e) {
-        this.error = e.response.data.message
-      }
-    },
-    initialize() {
-      this.$axios.get('/coachings').then((res) => {
-        this.coachings = res.data
-        this.coachings.forEach((e) => {
-          e.cch = e.coach.username
-          e.stat = e.status == true ? 'Finalizado' : 'En proceso'
-          e.start = e.rank.league.toUpperCase()
-          if (e.rank.division != undefined) {
-            e.start = e.start.concat(' ', e.rank.division)
+    setup(array) {
+      array.forEach((e) => {
+        e.cch = e.coach.username
+        e.stat = e.status == true ? 'Finalizado' : 'Sin finalizar'
+        e.start = e.rank.league.toUpperCase()
+        if (e.rank.division != undefined) {
+          e.start = e.start.concat(' ', e.rank.division)
+        }
+        if (e.createdAt != undefined) {
+          const options = {
+            year: 'numeric',
+            day: 'numeric',
+            month: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
           }
-        })
+          e.creado = new Date(e.createdAt)
+          e.creado = e.creado.toLocaleString('es-AR', options)
+        }
       })
     },
+    initialize() {
+      if (this.coachings.length === 0) {
+        this.$axios.get('/coachs/'.concat(this.booster._id)).then((res) => {
+          for (let i = 0; i < res.data.length; i++) {
+            this.setup(res.data)
+            this.coachings.push(res.data[i])
+          }
+          this.$axios.get('/unassignedcoachings').then((res) => {
+            for (let i = 0; i < res.data.length; i++) {
+              this.setup(res.data)
+              this.coachings.push(res.data[i])
+            }
+          })
+        })
+      }
+    },
     async pickCoaching(coaching) {
-      if (confirm('¿Estás seguro de que quieres realizar este coaching?')) {
-        const path = '/coachings/' + coaching._id
-        coaching.coach = this.booster._id
-        delete coaching.createdAt
-        try {
-          await this.$axios.put(path, coaching)
-          this.initialize()
-        } catch (e) {
-          this.error = e.response.data.message
-        }
+      const path = '/coachings/' + coaching._id
+      coaching.coach = this.booster
+      coaching.cch = coaching.coach.username
+      try {
+        await this.$axios.put(path, coaching)
+      } catch (e) {
+        this.error = e.response.data.message
       }
     },
     async endCoaching(coaching) {
-      if (confirm('¿Estás seguro de que quieres finalizar este coaching?')) {
-        const path = '/coachings/' + coaching._id
-        coaching.status = true
-        try {
-          await this.$axios.put(path, coaching)
-          this.initialize()
-        } catch (e) {
-          this.error = e.response.data.message
-        }
+      const path = '/coachings/' + coaching._id
+      coaching.status = true
+      coaching.stat = 'Finalizado'
+      try {
+        await this.$axios.put(path, coaching)
+      } catch (e) {
+        this.error = e.response.data.message
       }
     },
+  },
+  head() {
+    return {
+      title: 'Panel de booster',
+    }
   },
 }
 </script>

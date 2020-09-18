@@ -95,9 +95,7 @@ export default {
       if (this.player.service == 'Divisiones') {
         // SI SON DIVISIONES
         this.url = this.url.concat(
-          ` actualmente recibo ${
-            this.player.lpGain
-          } LP por win y quisiera llegar a ${this.player.desiredRank.league.toUpperCase()} ${
+          ` y quisiera llegar a ${this.player.desiredRank.league.toUpperCase()} ${
             this.player.desiredRank.division
           } a través de un`
         )

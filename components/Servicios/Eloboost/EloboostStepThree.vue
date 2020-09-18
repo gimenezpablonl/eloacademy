@@ -1,12 +1,10 @@
 <template>
   <v-form ref="form" v-model="valid">
-    <LeaguePicker
-      v-if="service === 'Divisiones'"
-      @changed="pickLeague"
-      @pickedDivision="pickDivision"
-    />
-    <v-row v-if="service === 'Victorias'" align="center" no-gutters>
-      <v-col class="d-flex" cols="auto" md="5" sm="10">
+    <v-row>
+      <v-col v-if="service === 'Divisiones'" cols="12">
+        <LeaguePicker required @rankChanged="pickRank" />
+      </v-col>
+      <v-col v-if="service === 'Victorias'" cols="12">
         <v-text-field
           v-model="player.wins"
           :rules="[(v) => !!v || 'Necesario']"
@@ -35,7 +33,7 @@
 </template>
 
 <script>
-import LeaguePicker from '@/components/Servicios/LeaguePicker.vue'
+import LeaguePicker from '@/components/Forms/LeaguePicker.vue'
 export default {
   components: {
     LeaguePicker,
@@ -53,7 +51,6 @@ export default {
     lpGains: ['1-10', '10-14', '15-17', '18-24+'],
     player: {
       wins: 0,
-
       desiredRank: {
         league: '',
         division: '',
@@ -61,11 +58,8 @@ export default {
     },
   }),
   methods: {
-    pickLeague(league) {
-      this.player.desiredRank.league = league
-    },
-    pickDivision(division) {
-      this.player.desiredRank.division = division
+    pickRank(rank) {
+      this.player.desiredRank = rank
     },
     passForm() {
       this.$refs.form.validate()

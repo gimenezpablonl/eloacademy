@@ -92,10 +92,59 @@ router.get('/boosters', async (req, res) => {
   res.json(boosters)
 })
 
+router.get('/coachs', async (req, res) => {
+  const boosters = await User.find({ role: { $gte: 1 } })
+  res.json(boosters)
+})
+
+router.get('/unassignedeloboosts', async (req, res) => {
+  const unassignedbooster = await User.findOneAndUpdate(
+    { username: 'Sin asignar' },
+    { role: 1 },
+    {
+      new: true,
+      upsert: true,
+    }
+  )
+  const unassignedeloboosts = await Eloboost.find({
+    booster: unassignedbooster._id,
+  }).populate('booster')
+  res.json(unassignedeloboosts)
+})
+
+router.get('/unassignedcoachings', async (req, res) => {
+  const unassignedbooster = await User.findOneAndUpdate(
+    { username: 'Sin asignar' },
+    { role: 1 },
+    {
+      new: true,
+      upsert: true,
+    }
+  )
+  const unassignedcoachings = await Coaching.find({
+    coach: unassignedbooster._id,
+  }).populate('coach')
+  res.json(unassignedcoachings)
+})
+
+router.get('/unassignedbooster', async (req, res) => {
+  const unassignedbooster = await User.findOneAndUpdate(
+    { username: 'Sin asignar' },
+    { role: 1 },
+    {
+      new: true,
+      upsert: true,
+    }
+  )
+  res.json(unassignedbooster)
+})
+
 // GET ELOBOOSTS BY BOOSTER
 router.get('/boosters/:id', async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-    const eloboosts = await Eloboost.find({ booster: req.params.id })
+    const eloboosts = await Eloboost.find({ booster: req.params.id }).populate(
+      'booster'
+    )
     res.json(eloboosts)
   }
 })
@@ -103,10 +152,33 @@ router.get('/boosters/:id', async (req, res) => {
 // GET COACHINGS BY BOOSTER
 router.get('/coachs/:id', async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-    const coachings = await Coaching.find({ coach: req.params.id })
+    const coachings = await Coaching.find({ coach: req.params.id }).populate(
+      'coach'
+    )
     res.json(coachings)
   }
 })
+
+router.get('/usersdata/', async (req, res) => {
+  const usersData = await User.find().lean()
+  for (let i = 0; i < usersData.length; i++) {
+    usersData[i].eloboosts = await Eloboost.find({ booster: usersData[i]._id })
+    usersData[i].coachings = await Coaching.find({ coach: usersData[i]._id })
+    usersData[i].accounts = await Account.find({ owner: usersData[i]._id })
+  }
+  res.send(usersData)
+})
+
+router.get('/userdata/:id', async (req, res) => {
+  const userData = {}
+  if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+    userData.eloboosts = await Eloboost.find({ booster: req.params.id })
+    userData.coachings = await Coaching.find({ coach: req.params.id })
+    userData.accounts = await Account.find({ owner: req.params.id })
+  }
+  res.send(userData)
+})
+
 // ACCOUNTS
 
 router.get('/accounts', async (req, res) => {
@@ -210,8 +282,6 @@ router.post('/eloboosts', async (req, res) => {
     role,
     champions,
   } = req.body
-  console.log(req.body)
-  const createdAt = new Date()
   const eloboost = new Eloboost({
     username,
     password,
@@ -227,7 +297,6 @@ router.post('/eloboosts', async (req, res) => {
     wins,
     role,
     champions,
-    createdAt,
   })
   await eloboost.save()
   res.json({
@@ -284,8 +353,6 @@ router.delete('/coachings/:id', async (req, res) => {
   await Coaching.findByIdAndRemove(req.params.id)
   res.send('coachings deleted')
 })
-
-// GET ALL
 
 router.get('/alldata', async (req, res) => {
   const data = {}

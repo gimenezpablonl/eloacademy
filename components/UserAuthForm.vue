@@ -1,12 +1,14 @@
 <template>
-  <v-dialog v-model="dialog" width="500" overlay-color="primary">
+  <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{ on }">
-      <v-tab color="opposite" class="font-weight-bold" v-on="on">{{
-        buttonText
-      }}</v-tab>
+      <v-btn text v-on="on">{{ buttonText }}</v-btn>
     </template>
     <v-card :loading="loading" shaped width="500">
-      <v-form ref="form" v-model="valid">
+      <v-form
+        ref="form"
+        v-model="valid"
+        @keyup.native.enter="valid && login(userInfo)"
+      >
         <v-container class="px-10">
           <v-row class="px-5" align="center" justify="center" no-gutters>
             <v-col cols="12" class="px-0">
@@ -20,6 +22,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="userInfo.username"
+                autofocus
                 label="Nombre de usuario"
                 required
                 outlined

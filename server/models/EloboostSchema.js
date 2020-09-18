@@ -8,6 +8,7 @@ const Eloboost = new Schema({
   },
   booster: {
     type: Schema.ObjectId,
+    required: true,
     ref: 'Users',
   },
   username: {
@@ -47,9 +48,11 @@ const Eloboost = new Schema({
   desiredRank: {
     league: {
       type: String,
+      default: '',
     },
     division: {
       type: String,
+      default: '',
     },
   },
   desiredLp: {
@@ -70,6 +73,7 @@ const Eloboost = new Schema({
   },
   createdAt: {
     type: Date,
+    default: Date.now,
   },
 })
 

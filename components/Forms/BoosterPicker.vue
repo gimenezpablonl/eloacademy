@@ -1,34 +1,39 @@
 <template>
   <v-autocomplete
-    v-model="bstrLocal"
+    v-model="boosterLocal"
     color="accent3"
+    outlined
     item-color="opposite"
     :items="boosters"
     label="Booster"
+    prepend-inner-icon="mdi-account-reactivate"
     item-text="username"
     item-value="_id"
     max-height="auto"
-    autocomplete
     return-object
-    @change="onChange($event)"
+    autocomplete
   >
     <template v-slot:selection="data">
       {{ data.item.username }}
     </template>
     <template v-slot:item="data">
-      <template>
-        {{ data.item.username }}
-      </template>
+      <template> {{ data.item.username }} </template>
     </template>
   </v-autocomplete>
 </template>
 
 <script>
 export default {
+  model: {
+    prop: 'booster',
+    event: 'boosterChanged',
+  },
   props: {
-    bstr: {
-      type: String,
-      default: '',
+    booster: {
+      type: Object,
+      default() {
+        return {}
+      },
     },
   },
   data() {
@@ -37,12 +42,12 @@ export default {
     }
   },
   computed: {
-    bstrLocal: {
+    boosterLocal: {
       get() {
-        return this.bstr
+        return this.booster._id
       },
       set(value) {
-        this.$emit('bstrchange', true)
+        this.$emit('boosterChanged', value)
       },
     },
   },
@@ -50,9 +55,6 @@ export default {
     this.getBoosters()
   },
   methods: {
-    onChange(event) {
-      this.$emit('changed', event)
-    },
     getBoosters() {
       this.$axios.get('/boosters').then((res) => (this.boosters = res.data))
     },

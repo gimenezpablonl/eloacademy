@@ -1,22 +1,42 @@
 <template>
   <v-app
     id="main"
-    :style="{ background: $vuetify.theme.themes[theme].primary }"
+    :style="{
+      backgroundColor: $vuetify.theme.themes[theme].primary,
+      background: background,
+    }"
   >
-    <v-navigation-drawer permanent fixed app color="primary" mini-variant>
-      <v-list dense nav>
-        <v-list-item-group v-model="group">
+    <v-navigation-drawer permanent fixed app color="secondary" expand-on-hover>
+      <v-list nav dense light>
+        <v-list-item-group>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="title">
+                {{ booster.username }}
+              </v-list-item-title>
+              <v-list-item-subtitle> Administrador </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
           <v-list-item
             v-for="item in items"
             :key="item.title"
             nuxt-link
-            :color="item.color"
             :to="{ name: item.route }"
           >
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-list-item-icon v-bind="attrs" v-on="on">
                   <v-icon>{{ item.icon }}</v-icon>
+                  <v-badge
+                    v-if="item.unassigneds > 0"
+                    color="accent2"
+                    bottom
+                    overlap
+                  >
+                    <template v-slot:badge>
+                      <span class="black--text"> {{ item.unassigneds }} </span>
+                    </template>
+                  </v-badge>
                 </v-list-item-icon>
               </template>
               <span> {{ item.tooltip }} </span>
@@ -47,42 +67,39 @@ export default {
   },
 
   data: () => ({
+    booster: {},
     drawer: false,
-    group: null,
     items: [
       {
         title: 'Panel de control',
         icon: 'mdi-view-dashboard',
-        route: 'admin',
-        color: 'black lighten-3',
+        route: 'admin-dashboard',
         tooltip: 'Dashboard',
       },
       {
         title: 'Eloboosts',
-        icon: 'mdi-account-reactivate',
+        icon: 'mdi-rocket-launch',
         route: 'admin-eloboosts',
-        color: 'green lighten-3',
         tooltip: 'Eloboosts',
+        unassigneds: 0,
       },
       {
         title: 'Coachings',
         icon: 'mdi-school',
         route: 'admin-coachings',
-        color: 'purple lighten-3',
         tooltip: 'Coachings',
+        unassigneds: 0,
       },
       {
         title: 'Cuentas',
         icon: 'mdi-store',
         route: 'admin-cuentas',
-        color: 'red lighten-3',
         tooltip: 'Cuentas',
       },
       {
         title: 'Usuarios',
         icon: 'mdi-account-multiple',
         route: 'admin-usuarios',
-        color: 'blue lighten-3',
         tooltip: 'Usuarios',
       },
     ],
@@ -92,25 +109,43 @@ export default {
     theme() {
       return this.$vuetify.theme.dark ? 'dark' : 'light'
     },
-  },
-  watch: {
-    group() {
-      this.drawer = false
+    background() {
+      if (this.theme === 'dark') {
+        return 'linear-gradient(to right top, rgba(195,126,9), rgba(68,70,91)'
+      } else {
+        return 'linear-gradient(to right top, rgba(34,159,255,.3), rgba(253,250,119,.3))'
+      }
     },
-  },
-  mounted() {
-    this.storeToken(
-      localStorage.getItem('token'),
-      JSON.parse(localStorage.getItem('user'))
-    )
-  },
-  methods: {
-    storeToken(token, user) {
-      if (process.browser) {
-        this.$store.commit('update', { token, user })
+    getBooster() {
+      if (this.$store.state.user != undefined) {
+        return this.$store.state.user
+      } else {
+        return {}
       }
     },
   },
+  created() {
+    this.booster = this.getBooster
+    this.$axios.get('/unassignedeloboosts').then((res) => {
+      this.items[1].unassigneds = res.data.length
+    })
+    this.$axios.get('/unassignedcoachings').then((res) => {
+      this.items[2].unassigneds = res.data.length
+    })
+  },
 }
 </script>
-<style></style>
+<style>
+body {
+  overflow: hidden;
+
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  width: 0 !important;
+}
+body {
+  overflow: -moz-scrollbars-none;
+}
+</style>

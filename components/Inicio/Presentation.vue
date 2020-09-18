@@ -43,8 +43,8 @@ export default {
   computed: {
     op() {
       return this.$vuetify.theme.dark
-        ? 'to right top, rgba(34,159,255,.3), rgba(253,250,119,.3)'
-        : 'to right top, rgba(34,159,255,.5), rgba(253,250,119,.5)'
+        ? 'to right top, rgba(195,126,9,.5), rgba(68,70,91,.5)'
+        : 'to right top, rgba(34,159,255,.6), rgba(253,250,119,.6)'
     },
   },
 }

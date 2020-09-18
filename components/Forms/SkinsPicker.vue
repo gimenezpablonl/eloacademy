@@ -1,16 +1,17 @@
 <template>
   <v-autocomplete
+    v-model="skinsLocal"
     color="accent3"
+    outlined
     item-color="opposite"
     :items="skins"
     clearable
     multiple
+    prepend-inner-icon="mdi-fencing"
     label="Aspectos"
     item-text="name"
     item-value="code"
     autocomplete
-    return-object
-    @change="onChange($event)"
   >
     <template v-slot:selection="data">
       <v-avatar>
@@ -41,6 +42,12 @@ export default {
         return []
       },
     },
+    skns: {
+      type: Array,
+      default() {
+        return []
+      },
+    },
   },
   data() {
     return {
@@ -49,6 +56,17 @@ export default {
       skins: [],
       pickedSkins: [],
     }
+  },
+  computed: {
+    skinsLocal: {
+      get() {
+        this.getSkins()
+        return this.skns
+      },
+      set(value) {
+        this.$emit('skinsChanged', value)
+      },
+    },
   },
   watch: {
     champions() {
@@ -64,7 +82,7 @@ export default {
           if (this.listOfChampions[i].key == champ) {
             this.skins.push({ header: this.listOfChampions[i].name })
             this.listOfSkins.forEach((char) => {
-              if (char.id === champ) {
+              if (char.id == champ) {
                 char.info.forEach((skin) => {
                   if (!skin.isBase) {
                     url =
@@ -92,7 +110,7 @@ export default {
       for (let i = 0; i < events.length; i++) {
         this.pickedSkins.push(events[i].code)
       }
-      this.$emit('changed', this.pickedSkins)
+      this.$emit('skinsChanged', this.pickedSkins)
     },
   },
 }
